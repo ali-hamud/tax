@@ -1,0 +1,1419 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Offline dashboard of verified 2024 income and tax withholding from local source documents.">
+  <title>2024 Income and Taxes Dashboard</title>
+  <link rel="icon" href="data:,">
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+:root {
+  color-scheme: light;
+  --cp-bg: #f7f4ef;
+  --cp-bg-elevated: #fcfbf8;
+  --cp-surface: #ffffff;
+  --cp-surface-soft: #f5f5f5;
+  --cp-border: #dedede;
+  --cp-border-strong: #919191;
+  --cp-text: #242424;
+  --cp-text-muted: #5c5c5c;
+  --cp-text-soft: #6f6f6f;
+  --cp-accent: #b11f4b;
+  --cp-accent-hover: #9a1a41;
+  --cp-accent-soft: rgba(177, 31, 75, 0.08);
+  --cp-accent-fg: #ffffff;
+  --cp-success: #16a34a;
+  --cp-danger: #dc2626;
+  --cp-warning: #f59e0b;
+  --cp-link: #0078d4;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+  --cp-overlay: rgba(255, 255, 255, 0.8);
+  --cp-panel: rgba(255, 255, 255, 0.86);
+  --cp-panel-strong: rgba(255, 255, 255, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.55);
+  --cp-highlight: rgba(177, 31, 75, 0.12);
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --cp-bg: #3d3b3a;
+  --cp-bg-elevated: #343231;
+  --cp-surface: #292929;
+  --cp-surface-soft: #2e2e2e;
+  --cp-border: #474747;
+  --cp-border-strong: #5f5f5f;
+  --cp-text: #dedede;
+  --cp-text-muted: #919191;
+  --cp-text-soft: #b0b0b0;
+  --cp-accent: #fd8ea1;
+  --cp-accent-hover: #fb7b91;
+  --cp-accent-soft: rgba(253, 142, 161, 0.14);
+  --cp-accent-fg: #1a1a1a;
+  --cp-success: #4ade80;
+  --cp-danger: #f87171;
+  --cp-warning: #fbbf24;
+  --cp-link: #4da6ff;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --cp-overlay: rgba(41, 41, 41, 0.88);
+  --cp-panel: rgba(41, 41, 41, 0.72);
+  --cp-panel-strong: rgba(41, 41, 41, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.04);
+  --cp-highlight: rgba(253, 142, 161, 0.12);
+}
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.5;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    a {
+      color: var(--cp-link);
+    }
+
+    .skip-link {
+      position: fixed;
+      inset-block-start: 8px;
+      inset-inline-start: 8px;
+      z-index: 100;
+      padding: 8px 12px;
+      border: 1px solid var(--cp-border-strong);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      transform: translateY(-160%);
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .shell {
+      width: min(1200px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0 56px;
+    }
+
+    .hero {
+      display: grid;
+      gap: 16px;
+      padding: 28px;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-bg-elevated);
+      box-shadow: 0 0 2px var(--cp-border), 0 1px 2px var(--cp-border);
+    }
+
+    .eyebrow {
+      margin: 0;
+      color: var(--cp-accent);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    h1 {
+      max-width: 880px;
+      font-size: clamp(2rem, 5vw, 3.75rem);
+      letter-spacing: -0.035em;
+    }
+
+    h2 {
+      font-size: clamp(1.35rem, 2.5vw, 1.85rem);
+    }
+
+    h3 {
+      font-size: 1.05rem;
+    }
+
+    .subtitle {
+      max-width: 840px;
+      margin: 0;
+      color: var(--cp-text-muted);
+      font-size: 1.05rem;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip,
+    .confidence {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 10px;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+      color: var(--cp-text-muted);
+      font-size: 0.78rem;
+      font-weight: 650;
+    }
+
+    .confidence.verified {
+      border-color: var(--cp-success);
+      color: var(--cp-success);
+    }
+
+    .confidence.combined {
+      border-color: var(--cp-accent);
+      color: var(--cp-accent);
+    }
+
+    .confidence.missing {
+      border-color: var(--cp-warning);
+      color: var(--cp-warning);
+    }
+
+    .warning {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: start;
+      margin-top: 16px;
+      padding: 16px;
+      border: 1px solid var(--cp-warning);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+    }
+
+    .warning strong {
+      color: var(--cp-warning);
+    }
+
+    .warning p {
+      margin: 0;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 24px 0;
+      padding: 16px;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface);
+      box-shadow: 0 0 2px var(--cp-border), 0 1px 2px var(--cp-border);
+    }
+
+    .control {
+      display: grid;
+      gap: 8px;
+    }
+
+    .control-label {
+      color: var(--cp-text-muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .segmented {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface-soft);
+    }
+
+    .segmented button {
+      min-height: 36px;
+      padding: 6px 12px;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      cursor: pointer;
+    }
+
+    .segmented button:hover {
+      border-color: var(--cp-accent);
+      color: var(--cp-accent);
+    }
+
+    .segmented button[aria-pressed="true"] {
+      border-color: var(--cp-accent);
+      background: var(--cp-accent);
+      color: var(--cp-accent-fg);
+    }
+
+    button:focus-visible,
+    a:focus-visible {
+      outline: 3px solid var(--cp-accent);
+      outline-offset: 2px;
+    }
+
+    .scope-summary {
+      align-self: end;
+      max-width: 440px;
+      margin: 0;
+      color: var(--cp-text-muted);
+      font-size: 0.9rem;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface);
+      box-shadow: 0 0 2px var(--cp-border), 0 1px 2px var(--cp-border);
+    }
+
+    .kpi {
+      min-height: 172px;
+      padding: 20px;
+    }
+
+    .kpi-label {
+      margin: 0 0 12px;
+      color: var(--cp-text-muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .kpi-value {
+      margin: 0;
+      color: var(--cp-text);
+      font-size: clamp(1.65rem, 3vw, 2.35rem);
+      font-weight: 750;
+      letter-spacing: -0.035em;
+    }
+
+    .kpi-note {
+      margin: 12px 0 0;
+      color: var(--cp-text-muted);
+      font-size: 0.86rem;
+    }
+
+    .section {
+      margin-top: 24px;
+    }
+
+    .section-heading {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: end;
+      margin-bottom: 12px;
+    }
+
+    .section-heading p {
+      max-width: 720px;
+      margin: 4px 0 0;
+      color: var(--cp-text-muted);
+    }
+
+    .visual-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+      gap: 16px;
+    }
+
+    .panel {
+      padding: 20px;
+    }
+
+    .panel-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: start;
+      margin-bottom: 16px;
+    }
+
+    .panel-header p {
+      margin: 4px 0 0;
+      color: var(--cp-text-muted);
+      font-size: 0.86rem;
+    }
+
+    .donut-layout {
+      display: grid;
+      grid-template-columns: minmax(220px, 0.8fr) minmax(240px, 1.2fr);
+      gap: 20px;
+      align-items: center;
+    }
+
+    .donut {
+      width: min(100%, 320px);
+      margin: auto;
+      overflow: visible;
+    }
+
+    .donut-track {
+      stroke: var(--cp-surface-soft);
+    }
+
+    .donut-center-label {
+      fill: var(--cp-text-muted);
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .donut-center-value {
+      fill: var(--cp-text);
+      font-size: 0.78rem;
+      font-weight: 750;
+    }
+
+    .legend {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .legend-item {
+      display: grid;
+      grid-template-columns: 12px minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--cp-border);
+    }
+
+    .legend-item:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 0.625rem;
+      background: var(--swatch);
+    }
+
+    .legend-label {
+      min-width: 0;
+      font-size: 0.88rem;
+    }
+
+    .legend-value {
+      color: var(--cp-text-muted);
+      font-size: 0.82rem;
+      font-variant-numeric: tabular-nums;
+      text-align: end;
+      white-space: nowrap;
+    }
+
+    .tax-overlay {
+      display: grid;
+      gap: 16px;
+    }
+
+    .tax-comparison-row {
+      display: grid;
+      gap: 8px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--cp-border);
+    }
+
+    .tax-comparison-row:last-of-type {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .comparison-heading {
+      font-size: 0.9rem;
+      font-weight: 750;
+    }
+
+    .comparison-values {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .comparison-key {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: baseline;
+      font-size: 0.78rem;
+    }
+
+    .comparison-key.paid {
+      color: var(--cp-text-muted);
+    }
+
+    .comparison-key.due {
+      color: var(--due-color);
+    }
+
+    .comparison-key strong {
+      font-size: 0.86rem;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .comparison-track {
+      position: relative;
+      height: 36px;
+      overflow: hidden;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface-soft);
+    }
+
+    .comparison-bar {
+      position: absolute;
+      inset-inline-start: 0;
+      width: var(--bar-width);
+      border-radius: 0.625rem;
+      background: var(--bar-color);
+    }
+
+    .comparison-bar.paid {
+      inset-block-start: 5px;
+      height: 26px;
+      background: var(--cp-text-muted);
+      opacity: 0.55;
+    }
+
+    .comparison-bar.due {
+      inset-block-start: 12px;
+      height: 12px;
+      background: var(--due-color);
+    }
+
+    .comparison-note,
+    .overlay-note {
+      margin: 0;
+      color: var(--cp-text-muted);
+      font-size: 0.75rem;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--cp-surface);
+    }
+
+    caption {
+      padding: 12px;
+      color: var(--cp-text-muted);
+      font-size: 0.86rem;
+      text-align: start;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border-bottom: 1px solid var(--cp-border);
+      text-align: start;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--cp-surface-soft);
+      color: var(--cp-text-muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    td {
+      font-size: 0.88rem;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .number {
+      font-variant-numeric: tabular-nums;
+      text-align: end;
+      white-space: nowrap;
+    }
+
+    .table-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    .insight-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .insight {
+      padding: 20px;
+    }
+
+    .insight p {
+      margin: 10px 0 0;
+      color: var(--cp-text-muted);
+      font-size: 0.9rem;
+    }
+
+    .insight .big {
+      display: block;
+      margin-top: 12px;
+      color: var(--cp-text);
+      font-size: 1.35rem;
+      font-weight: 750;
+    }
+
+    .espp {
+      border-color: var(--cp-warning);
+      background: var(--cp-accent-soft);
+    }
+
+    .equation-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .equation {
+      padding: 16px;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+    }
+
+    .equation-label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--cp-text-muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    code {
+      color: var(--cp-text);
+      font-family: Consolas, "Courier New", Courier, monospace;
+      font-size: 0.9rem;
+      font-weight: 650;
+      white-space: normal;
+    }
+
+    .missing-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .missing-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px;
+      padding: 14px;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+    }
+
+    .missing-icon {
+      color: var(--cp-warning);
+      font-weight: 800;
+    }
+
+    .missing-item strong {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .missing-item span {
+      color: var(--cp-text-muted);
+      font-size: 0.86rem;
+    }
+
+    .notes {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .note-card {
+      padding: 20px;
+    }
+
+    .note-card ul {
+      margin: 12px 0 0;
+      padding-inline-start: 20px;
+      color: var(--cp-text-muted);
+    }
+
+    .note-card li + li {
+      margin-top: 8px;
+    }
+
+    .source-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .source-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--cp-border);
+      color: var(--cp-text-muted);
+      font-size: 0.86rem;
+    }
+
+    .source-row:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    footer {
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid var(--cp-border);
+      color: var(--cp-text-muted);
+      font-size: 0.82rem;
+    }
+
+    .status {
+      min-height: 1.5em;
+      color: var(--cp-text-muted);
+      font-size: 0.82rem;
+    }
+
+    @media (max-width: 960px) {
+      .kpi-grid,
+      .insight-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .visual-grid,
+      .notes {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .shell {
+        width: min(100% - 20px, 1200px);
+        padding-top: 12px;
+      }
+
+      .hero,
+      .panel,
+      .kpi,
+      .insight,
+      .note-card {
+        padding: 16px;
+      }
+
+      .kpi-grid,
+      .insight-grid,
+      .equation-grid,
+      .missing-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .donut-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .toolbar {
+        align-items: stretch;
+      }
+
+      .control,
+      .segmented {
+        width: 100%;
+      }
+
+      .segmented button {
+        flex: 1;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+    }
+
+    @media print {
+      .toolbar,
+      .skip-link {
+        display: none;
+      }
+
+      body {
+        background: var(--cp-surface);
+      }
+
+      .shell {
+        width: 100%;
+      }
+
+      .card,
+      .hero {
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to dashboard content</a>
+  <div class="shell">
+    <header class="hero">
+      <p class="eyebrow">Verified local source documents</p>
+      <h1>2024 Income and Taxes Dashboard</h1>
+      <p class="subtitle">2024 only. Amounts are in Israeli new shekels (ILS) unless noted. This dashboard shows documented components, not complete worldwide income or a final tax calculation.</p>
+      <div class="meta-row" aria-label="Dashboard scope">
+        <span class="chip">Offline and self-contained</span>
+        <span class="chip">Taxpayer view by default</span>
+        <span class="chip">No account or identity numbers</span>
+        <span class="chip">Theme follows system or URL setting</span>
+      </div>
+    </header>
+
+    <div class="toolbar" aria-label="Dashboard controls">
+      <div class="control">
+        <span class="control-label" id="scope-label">Income scope</span>
+        <div class="segmented" role="group" aria-labelledby="scope-label">
+          <button type="button" data-scope="taxpayer" aria-pressed="true">Taxpayer only</button>
+          <button type="button" data-scope="household" aria-pressed="false">Include spouse</button>
+        </div>
+      </div>
+      <div class="control">
+        <span class="control-label" id="view-label">Display</span>
+        <div class="segmented" role="group" aria-labelledby="view-label">
+          <button type="button" data-view="chart" aria-pressed="true">Charts</button>
+          <button type="button" data-view="table" aria-pressed="false">Tables</button>
+        </div>
+      </div>
+      <p class="scope-summary" id="scope-summary">Taxpayer view excludes spouse salary and withholding. Missing U.S. and IBKR amounts are excluded in every view.</p>
+    </div>
+
+    <main id="main-content">
+      <section aria-labelledby="overview-title">
+        <div class="section-heading">
+          <div>
+            <h2 id="overview-title">Known 2024 snapshot</h2>
+            <p>Totals use non-overlapping document categories. A duplicate trustee Form 106 copy is counted once.</p>
+          </div>
+          <span class="confidence verified">Verified arithmetic</span>
+        </div>
+        <div class="kpi-grid">
+          <article class="card kpi">
+            <p class="kpi-label">Known verified income</p>
+            <p class="kpi-value" id="kpi-income">₪2,625,942</p>
+            <p class="kpi-note" id="kpi-income-note">Taxpayer components only. Excludes spouse and missing U.S./IBKR income.</p>
+          </article>
+          <article class="card kpi">
+            <p class="kpi-label">Israeli withholding</p>
+            <p class="kpi-value" id="kpi-israeli-tax">₪785,184</p>
+            <p class="kpi-note" id="kpi-israeli-tax-note">Salary/equity, Leumi capital gain, and deposit-interest withholding.</p>
+          </article>
+          <article class="card kpi">
+            <p class="kpi-label">Foreign dividend tax</p>
+            <p class="kpi-value">₪5,842</p>
+            <p class="kpi-note">₪5,546 documented as allowed credit; ₪296 documented as not allowed.</p>
+          </article>
+          <article class="card kpi">
+            <p class="kpi-label">Incomplete categories</p>
+            <p class="kpi-value">6 core gaps</p>
+            <p class="kpi-note">W-2, U.S. return, 1099s, Form 3922, stock supplement, and IBKR activity.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="composition-title">
+        <div class="section-heading">
+          <div>
+            <h2 id="composition-title">Income and withholding composition</h2>
+            <p>Switch between charts and accessible data tables. Household mode adds spouse salary and withholding as separate categories.</p>
+          </div>
+          <span class="confidence combined">Combined categories labeled</span>
+        </div>
+
+        <div id="chart-view" class="visual-grid">
+          <article class="card panel">
+            <div class="panel-header">
+              <div>
+                <h3>Known income composition</h3>
+                <p>Shares of the active scope total.</p>
+              </div>
+              <span class="chip" id="income-scope-chip">Taxpayer</span>
+            </div>
+            <div class="donut-layout">
+              <svg class="donut" id="income-donut" viewBox="0 0 220 220" role="img" aria-labelledby="income-chart-title income-chart-desc">
+                <title id="income-chart-title">Known 2024 income composition</title>
+                <desc id="income-chart-desc">Donut chart of verified income components.</desc>
+                <circle class="donut-track" cx="110" cy="110" r="76" fill="none" stroke-width="24"></circle>
+                <g id="donut-segments"></g>
+                <text class="donut-center-label" x="110" y="101" text-anchor="middle">Known income</text>
+                <text class="donut-center-value" id="donut-total" x="110" y="121" text-anchor="middle">₪2.63m</text>
+              </svg>
+              <ul class="legend" id="income-legend" aria-label="Income chart legend"></ul>
+            </div>
+          </article>
+
+          <article class="card panel">
+            <div class="panel-header">
+              <div>
+                <h3>Taxes paid vs estimated tax due</h3>
+                <p>Each original row overlays “How much I paid” in gray with “How much I shall pay” in green or red.</p>
+              </div>
+              <span class="chip" id="tax-scope-chip">Taxpayer estimate</span>
+            </div>
+            <div class="tax-overlay" id="tax-bars" role="img" aria-label="Overlay chart comparing documented tax paid with central estimated tax due"></div>
+          </article>
+        </div>
+
+        <div id="table-view" class="table-grid" hidden>
+          <article class="card panel">
+            <h3>Known income data</h3>
+            <div class="table-wrap">
+              <table>
+                <caption id="income-table-caption">Taxpayer income components; spouse excluded.</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Category</th>
+                    <th scope="col">Status</th>
+                    <th scope="col" class="number">Amount</th>
+                    <th scope="col">Interpretation</th>
+                  </tr>
+                </thead>
+                <tbody id="income-table-body"></tbody>
+              </table>
+            </div>
+          </article>
+          <article class="card panel">
+            <h3>Tax data</h3>
+            <div class="table-wrap">
+              <table>
+                <caption id="tax-table-caption">Taxpayer withholding and foreign dividend tax; spouse excluded.</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Category</th>
+                    <th scope="col">Jurisdiction / treatment</th>
+                    <th scope="col" class="number">Amount</th>
+                    <th scope="col">Included in Israeli withholding KPI</th>
+                  </tr>
+                </thead>
+                <tbody id="tax-table-body"></tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+        <p class="status" id="control-status" aria-live="polite"></p>
+      </section>
+
+      <section class="section" aria-labelledby="estimate-title">
+        <div class="section-heading">
+          <div>
+            <h2 id="estimate-title">Estimated 2024 tax and refund</h2>
+            <p>Taxpayer-only estimate based on currently available 2024 records. Household mode does not change these cards because spouse tax has not been calculated.</p>
+          </div>
+          <span class="confidence combined">Known-data estimate</span>
+        </div>
+        <div class="insight-grid">
+          <article class="card insight">
+            <span class="confidence verified">Documented</span>
+            <h3>Israeli tax withheld</h3>
+            <span class="big">₪785,184</span>
+            <p>Documented taxpayer withholding from salary/equity, Leumi capital gains, and deposit interest.</p>
+          </article>
+          <article class="card insight">
+            <span class="confidence combined">Estimate</span>
+            <h3>How much tax should I pay?</h3>
+            <span class="big">₪752,057–₪778,867</span>
+            <p>Central/current documented-credit scenario: <strong>₪763,694</strong>.</p>
+          </article>
+          <article class="card insight">
+            <span class="confidence combined">Estimate</span>
+            <h3>How much tax refund should I get?</h3>
+            <span class="big">₪6,317–₪33,127</span>
+            <p>Central/current documented-credit scenario: <strong>₪21,490</strong>.</p>
+          </article>
+        </div>
+        <div class="equation" style="margin-top:12px">
+          <span class="equation-label">Calculation relationship</span>
+          <code>Refund = ₪785,184 withholding − estimated tax due; central scenario: ₪785,184 − ₪763,694 = ₪21,490.</code>
+          <p style="margin:8px 0 0;color:var(--cp-text-muted);font-size:0.86rem">If the ₪16,818 prior-year loss is proven, it may add about ₪4,709 to the refund.</p>
+        </div>
+        <p style="margin:12px 0 0;color:var(--cp-text-muted);font-size:0.9rem">Missing 2024 U.S. income/tax and equity-allocation documents can materially change the result.</p>
+      </section>
+
+      <section class="section" aria-labelledby="equations-title">
+        <div class="section-heading">
+          <div>
+            <h2 id="equations-title">Source equations</h2>
+            <p>Transparent arithmetic from the reviewed 2024 documents. Spouse values remain separate unless household mode is selected.</p>
+          </div>
+          <span class="confidence verified">Direct source arithmetic</span>
+        </div>
+        <div class="equation-grid">
+          <div class="equation">
+            <span class="equation-label">Microsoft ordinary income</span>
+            <code>₪806,063 + ₪17,475 = ₪823,538</code>
+          </div>
+          <div class="equation">
+            <span class="equation-label">Section 102 capital component</span>
+            <code>₪1,434,700 + ₪7,261 = ₪1,441,961</code>
+          </div>
+          <div class="equation">
+            <span class="equation-label">Leumi personal-stock net profit</span>
+            <code>₪550,319 − ₪216,578 = ₪333,741</code>
+          </div>
+          <div class="equation">
+            <span class="equation-label">Dividends</span>
+            <code>₪6,153 + ₪16,034 = ₪22,187</code>
+          </div>
+          <div class="equation">
+            <span class="equation-label">Israeli withholding</span>
+            <code>₪701,072 + ₪83,435 + ₪677 = ₪785,184</code>
+          </div>
+          <div class="equation">
+            <span class="equation-label">Foreign dividend tax</span>
+            <code>Allowed: ₪1,538 + ₪4,008 = ₪5,546; not allowed: ₪296</code>
+          </div>
+          <div class="equation">
+            <span class="equation-label">Known taxpayer income total</span>
+            <code>₪823,538 + ₪1,441,961 + ₪333,741 + ₪22,187 + ₪4,515 = ₪2,625,942</code>
+          </div>
+          <div class="equation">
+            <span class="equation-label">Spouse, shown separately</span>
+            <code>Salary: ₪88,483; Israeli withholding: ₪356</code>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="missing-title">
+        <div class="section-heading">
+          <div>
+            <h2 id="missing-title">Missing evidence that can change the picture</h2>
+            <p>The known total is intentionally incomplete. No value from the unsupported summary workbook's W-2 lines is included.</p>
+          </div>
+          <span class="confidence missing">Material gaps</span>
+        </div>
+        <div class="missing-grid">
+          <div class="missing-item">
+            <span class="missing-icon" aria-hidden="true">!</span>
+            <div><strong>2024 W-2</strong><span>Needed to verify Microsoft USA wages and payroll tax.</span></div>
+          </div>
+          <div class="missing-item">
+            <span class="missing-icon" aria-hidden="true">!</span>
+            <div><strong>2024 U.S. return</strong><span>Needed for actual foreign tax paid and creditable amounts.</span></div>
+          </div>
+          <div class="missing-item">
+            <span class="missing-icon" aria-hidden="true">!</span>
+            <div><strong>2024 Forms 1099</strong><span>Needed for U.S. interest, dividends, and security sales.</span></div>
+          </div>
+          <div class="missing-item">
+            <span class="missing-icon" aria-hidden="true">!</span>
+            <div><strong>Form 3922 / ESPP records</strong><span>Needed to measure ESPP separately and establish basis.</span></div>
+          </div>
+          <div class="missing-item">
+            <span class="missing-icon" aria-hidden="true">!</span>
+            <div><strong>Microsoft stock supplement</strong><span>Needed to match W-2 income to grants, vesting, sales, and Israeli reporting.</span></div>
+          </div>
+          <div class="missing-item">
+            <span class="missing-icon" aria-hidden="true">!</span>
+            <div><strong>IBKR Oct–Dec activity</strong><span>Needed for 2024 realized gains, dividends, interest, and cost basis.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section notes" aria-label="Methodology and source confidence">
+        <article class="card note-card">
+          <h2>Confidence and exclusions</h2>
+          <ul>
+            <li><strong>Verified:</strong> figures read from 2024 income-information reports, trustee Form 106/867, and Leumi Form 867.</li>
+            <li><strong>Combined:</strong> Microsoft ordinary income cannot be separated reliably into pure salary, ESOP ordinary income, and ESPP.</li>
+            <li><strong>Excluded:</strong> spouse values in taxpayer mode, unsupported W-2 workbook figures, IBKR 2024 income, and any unverified loss carryforward.</li>
+            <li><strong>Estimate scope:</strong> the tax/refund cards use the verified known-data range; missing worldwide income can change the result.</li>
+          </ul>
+        </article>
+        <article class="card note-card">
+          <h2>Source coverage</h2>
+          <div class="source-list">
+            <div class="source-row"><span>Microsoft ordinary and Section 102 figures</span><span>Income report + trustee Form 106</span></div>
+            <div class="source-row"><span>Personal securities, dividends, interest</span><span>Leumi Form 867</span></div>
+            <div class="source-row"><span>Trustee foreign dividends and tax</span><span>Trustee Form 867</span></div>
+            <div class="source-row"><span>Spouse salary and withholding</span><span>Two income-information reports</span></div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      Prepared from locally reviewed 2024 source documents. This file contains no account numbers, identity numbers, or addresses. Preserve the original documents and reconcile missing records with an Israeli cross-border tax professional before filing.
+    </footer>
+  </div>
+
+  <script>
+    const incomeBase = [
+      {
+        label: "Microsoft ordinary salary/equity",
+        value: 823538,
+        color: "var(--cp-accent)",
+        status: "Combined",
+        interpretation: "Salary and employment-track equity are not separately measurable."
+      },
+      {
+        label: "Section 102 / ESOP capital",
+        value: 1441961,
+        color: "var(--cp-link)",
+        status: "Reported",
+        interpretation: "Capital component as reported; detailed basis reconciliation is missing."
+      },
+      {
+        label: "Leumi personal-stock net profit",
+        value: 333741,
+        color: "var(--cp-success)",
+        status: "Verified",
+        interpretation: "Gross gains less current-year losses."
+      },
+      {
+        label: "Dividends",
+        value: 22187,
+        color: "var(--cp-warning)",
+        status: "Verified",
+        interpretation: "Leumi and trustee dividends combined."
+      },
+      {
+        label: "Deposit interest",
+        value: 4515,
+        color: "var(--cp-text-soft)",
+        status: "Verified",
+        interpretation: "Leumi deposit interest."
+      }
+    ];
+
+    const spouseIncome = {
+      label: "Spouse salary",
+      value: 88483,
+      color: "var(--cp-border-strong)",
+      status: "Separate",
+      interpretation: "Included only in household mode."
+    };
+
+    const taxBase = [
+      {
+        label: "Israeli salary/equity withholding",
+        value: 701072,
+        color: "var(--cp-accent)",
+        treatment: "Israeli withholding",
+        domestic: true
+      },
+      {
+        label: "Leumi capital-gain withholding",
+        value: 83435,
+        color: "var(--cp-link)",
+        treatment: "Israeli withholding",
+        domestic: true
+      },
+      {
+        label: "Deposit-interest withholding",
+        value: 677,
+        color: "var(--cp-success)",
+        treatment: "Israeli withholding",
+        domestic: true
+      },
+      {
+        label: "Foreign dividend tax allowed",
+        value: 5546,
+        color: "var(--cp-warning)",
+        treatment: "Foreign tax documented as allowed credit",
+        domestic: false
+      },
+      {
+        label: "Foreign dividend tax not allowed",
+        value: 296,
+        color: "var(--cp-danger)",
+        treatment: "Foreign tax documented as not allowed",
+        domestic: false
+      }
+    ];
+
+    const spouseTax = {
+      label: "Spouse Israeli withholding",
+      value: 356,
+      color: "var(--cp-border-strong)",
+      treatment: "Separate spouse withholding",
+      domestic: true
+    };
+
+    const formatILS = (value) => `₪${Math.round(value).toLocaleString("en-US")}`;
+    const formatCompactILS = (value) => {
+      if (value >= 1000000) return `₪${(value / 1000000).toFixed(2)}m`;
+      if (value >= 1000) return `₪${(value / 1000).toFixed(1)}k`;
+      return formatILS(value);
+    };
+
+    let activeScope = "taxpayer";
+    let activeView = "chart";
+
+    const getIncome = () =>
+      activeScope === "household" ? [...incomeBase, spouseIncome] : [...incomeBase];
+
+    const getTaxes = () =>
+      activeScope === "household" ? [...taxBase, spouseTax] : [...taxBase];
+
+    function renderDonut(items) {
+      const total = items.reduce((sum, item) => sum + item.value, 0);
+      const radius = 76;
+      const circumference = 2 * Math.PI * radius;
+      let offset = 0;
+      const segments = document.getElementById("donut-segments");
+      segments.replaceChildren();
+
+      items.forEach((item) => {
+        const ratio = item.value / total;
+        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("cx", "110");
+        circle.setAttribute("cy", "110");
+        circle.setAttribute("r", String(radius));
+        circle.setAttribute("fill", "none");
+        circle.setAttribute("stroke", item.color);
+        circle.setAttribute("stroke-width", "24");
+        circle.setAttribute("stroke-dasharray", `${ratio * circumference} ${circumference}`);
+        circle.setAttribute("stroke-dashoffset", String(-offset * circumference));
+        circle.setAttribute("transform", "rotate(-90 110 110)");
+        circle.setAttribute("aria-hidden", "true");
+        segments.appendChild(circle);
+        offset += ratio;
+      });
+
+      document.getElementById("donut-total").textContent = formatCompactILS(total);
+      document.getElementById("income-chart-desc").textContent =
+        `Donut chart of ${items.length} verified income components totaling ${formatILS(total)}.`;
+
+      const legend = document.getElementById("income-legend");
+      legend.replaceChildren();
+      items.forEach((item) => {
+        const li = document.createElement("li");
+        li.className = "legend-item";
+        const percent = (item.value / total) * 100;
+        li.innerHTML = `
+          <span class="swatch" style="--swatch:${item.color}" aria-hidden="true"></span>
+          <span class="legend-label">${item.label}</span>
+          <span class="legend-value">${formatILS(item.value)} · ${percent.toFixed(1)}%</span>
+        `;
+        legend.appendChild(li);
+      });
+    }
+
+    function renderTaxComparison() {
+      const rows = [
+        {
+          label: "Israeli salary/equity withholding",
+          paid: 701072,
+          due: 668768,
+          note: "Central allocation: ordinary income tax plus Section 102 stock profit at 28%."
+        },
+        {
+          label: "Leumi capital-gain withholding",
+          paid: 83435,
+          due: 93447,
+          note: "Verified net personal-stock profit of ₪333,741 × 28%."
+        },
+        {
+          label: "Deposit-interest withholding",
+          paid: 677,
+          due: 813,
+          note: "15% interest tax plus 3% surtax in the central estimate."
+        },
+        {
+          label: "Foreign dividend tax allowed",
+          paid: 5546,
+          due: 666,
+          note: "Estimated remaining Israeli dividend tax after the allowed foreign tax credit."
+        },
+        {
+          label: "Foreign dividend tax not allowed",
+          paid: 296,
+          due: 0,
+          note: "Documented foreign tax that is not available as an Israeli credit."
+        }
+      ];
+      const target = document.getElementById("tax-bars");
+      target.replaceChildren();
+      rows.forEach((row) => {
+        const max = Math.max(row.paid, row.due, 1);
+        const paidWidth = (row.paid / max) * 100;
+        const dueWidth = (row.due / max) * 100;
+        const dueColor = row.due > row.paid ? "var(--cp-danger)" : "var(--cp-success)";
+        const item = document.createElement("div");
+        item.className = "tax-comparison-row";
+        item.style.setProperty("--due-color", dueColor);
+        item.innerHTML = `
+          <div class="comparison-heading">${row.label}</div>
+          <div class="comparison-values">
+            <span class="comparison-key paid"><span>How much I paid</span><strong>${formatILS(row.paid)}</strong></span>
+            <span class="comparison-key due"><span>How much I shall pay</span><strong>${formatILS(row.due)}</strong></span>
+          </div>
+          <div class="comparison-track" aria-hidden="true">
+            <div class="comparison-bar paid" style="--bar-width:${paidWidth}%"></div>
+            <div class="comparison-bar due" style="--bar-width:${dueWidth}%"></div>
+          </div>
+          <p class="comparison-note">${row.note}</p>
+        `;
+        target.appendChild(item);
+      });
+      const note = document.createElement("p");
+      note.className = "overlay-note";
+      note.textContent = "Gray shows documented tax paid. Green means the estimated amount is covered; red means the estimated amount is higher. Foreign-dividend rows show credit treatment and are not added to Israeli withholding.";
+      target.appendChild(note);
+    }
+
+    function renderTables(incomeItems, taxItems) {
+      const incomeBody = document.getElementById("income-table-body");
+      incomeBody.replaceChildren();
+      incomeItems.forEach((item) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${item.label}</td>
+          <td>${item.status}</td>
+          <td class="number">${formatILS(item.value)}</td>
+          <td>${item.interpretation}</td>
+        `;
+        incomeBody.appendChild(row);
+      });
+
+      const taxBody = document.getElementById("tax-table-body");
+      taxBody.replaceChildren();
+      taxItems.forEach((item) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${item.label}</td>
+          <td>${item.treatment}</td>
+          <td class="number">${formatILS(item.value)}</td>
+          <td>${item.domestic ? "Yes" : "No"}</td>
+        `;
+        taxBody.appendChild(row);
+      });
+    }
+
+    function render() {
+      const incomeItems = getIncome();
+      const taxItems = getTaxes();
+      const incomeTotal = incomeItems.reduce((sum, item) => sum + item.value, 0);
+      const domesticTaxTotal = taxItems
+        .filter((item) => item.domestic)
+        .reduce((sum, item) => sum + item.value, 0);
+      const household = activeScope === "household";
+
+      document.getElementById("kpi-income").textContent = formatILS(incomeTotal);
+      document.getElementById("kpi-israeli-tax").textContent = formatILS(domesticTaxTotal);
+      document.getElementById("kpi-income-note").textContent = household
+        ? "Taxpayer components plus spouse salary. Missing U.S./IBKR income remains excluded."
+        : "Taxpayer components only. Excludes spouse and missing U.S./IBKR income.";
+      document.getElementById("kpi-israeli-tax-note").textContent = household
+        ? "Taxpayer Israeli withholding plus spouse withholding of ₪356."
+        : "Salary/equity, Leumi capital gain, and deposit-interest withholding.";
+      document.getElementById("scope-summary").textContent = household
+        ? "Household view adds spouse salary and withholding as separate categories. Missing U.S. and IBKR amounts remain excluded."
+        : "Taxpayer view excludes spouse salary and withholding. Missing U.S. and IBKR amounts are excluded in every view.";
+      document.getElementById("income-scope-chip").textContent = household ? "Household" : "Taxpayer";
+      document.getElementById("income-table-caption").textContent = household
+        ? "Taxpayer components plus spouse salary as a separate household category."
+        : "Taxpayer income components; spouse excluded.";
+      document.getElementById("tax-table-caption").textContent = household
+        ? "Taxpayer tax categories plus spouse withholding as a separate household category."
+        : "Taxpayer withholding and foreign dividend tax; spouse excluded.";
+
+      renderDonut(incomeItems);
+      renderTaxComparison();
+      renderTables(incomeItems, taxItems);
+      document.getElementById("chart-view").hidden = activeView !== "chart";
+      document.getElementById("table-view").hidden = activeView !== "table";
+    }
+
+    document.querySelectorAll("[data-scope]").forEach((button) => {
+      button.addEventListener("click", () => {
+        activeScope = button.dataset.scope;
+        document.querySelectorAll("[data-scope]").forEach((candidate) => {
+          candidate.setAttribute("aria-pressed", String(candidate === button));
+        });
+        render();
+        document.getElementById("control-status").textContent =
+          activeScope === "household"
+            ? "Household mode selected. Spouse salary and withholding are now included separately."
+            : "Taxpayer-only mode selected. Spouse salary and withholding are excluded.";
+      });
+    });
+
+    document.querySelectorAll("[data-view]").forEach((button) => {
+      button.addEventListener("click", () => {
+        activeView = button.dataset.view;
+        document.querySelectorAll("[data-view]").forEach((candidate) => {
+          candidate.setAttribute("aria-pressed", String(candidate === button));
+        });
+        render();
+        document.getElementById("control-status").textContent =
+          activeView === "table"
+            ? "Table view selected."
+            : "Chart view selected.";
+      });
+    });
+
+    render();
+  </script>
+</body>
+</html>
