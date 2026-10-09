@@ -1449,13 +1449,17 @@
         });
       });
 
-      const taxBreakdownToggle = document.getElementById("usa-tax-breakdown-toggle");
-      const taxDetailRows = Array.from(document.querySelectorAll("[data-tax-detail]"));
-      taxBreakdownToggle.addEventListener("click", () => {
-        const expanded = taxBreakdownToggle.getAttribute("aria-expanded") === "true";
-        taxBreakdownToggle.setAttribute("aria-expanded", String(!expanded));
-        taxDetailRows.forEach((row) => {
-          row.hidden = expanded;
+      document.querySelectorAll(".tax-breakdown-toggle").forEach((toggle) => {
+        const detailRows = toggle
+          .getAttribute("aria-controls")
+          .split(/\s+/)
+          .map((id) => document.getElementById(id));
+        toggle.addEventListener("click", () => {
+          const expanded = toggle.getAttribute("aria-expanded") === "true";
+          toggle.setAttribute("aria-expanded", String(!expanded));
+          detailRows.forEach((row) => {
+            row.hidden = expanded;
+          });
         });
       });
 
