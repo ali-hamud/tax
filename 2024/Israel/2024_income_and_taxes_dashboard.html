@@ -533,6 +533,112 @@ html[data-theme="dark"] {
       font-size: 0.75rem;
     }
 
+    .tax-bracket-appendix {
+      direction: rtl;
+    }
+
+    .bracket-chart {
+      position: relative;
+      direction: ltr;
+      padding: 48px 0 38px;
+    }
+
+    .bracket-band {
+      display: flex;
+      height: 36px;
+      overflow: hidden;
+      border: 1px solid var(--cp-border-strong);
+      border-radius: 0.625rem;
+      background: var(--cp-surface-soft);
+    }
+
+    .bracket-segment {
+      width: var(--segment-width);
+      min-width: 2px;
+      border-inline-end: 1px solid var(--cp-surface);
+      background: var(--segment-color);
+    }
+
+    .bracket-segment:last-child {
+      border-inline-end: 0;
+    }
+
+    .bracket-marker {
+      position: absolute;
+      inset-block: 26px 24px;
+      inset-inline-start: var(--marker-left);
+      width: 0;
+      border-inline-start: 3px solid var(--marker-color);
+      pointer-events: none;
+    }
+
+    .bracket-marker.surtax {
+      border-inline-start-style: dashed;
+      border-inline-start-width: 2px;
+    }
+
+    .bracket-marker-label {
+      position: absolute;
+      inset-inline-start: 0;
+      max-width: 210px;
+      padding: 4px 8px;
+      border: 1px solid var(--marker-color);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      direction: rtl;
+      font-size: 0.76rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .bracket-marker.income .bracket-marker-label {
+      inset-block-start: -28px;
+      transform: translateX(-100%);
+    }
+
+    .bracket-marker.surtax .bracket-marker-label {
+      inset-block-end: -28px;
+      transform: translateX(-50%);
+    }
+
+    .bracket-axis {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      color: var(--cp-text-muted);
+      direction: ltr;
+      font-size: 0.72rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .bracket-legend {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 16px;
+      direction: rtl;
+    }
+
+    .bracket-legend-item {
+      display: grid;
+      grid-template-columns: 12px minmax(0, 1fr);
+      gap: 8px;
+      align-items: center;
+      padding: 8px;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface-soft);
+      font-size: 0.78rem;
+    }
+
+    .bracket-legend-swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 0.625rem;
+      background: var(--segment-color);
+    }
+
     .table-wrap {
       overflow-x: auto;
       border: 1px solid var(--cp-border);
@@ -766,7 +872,8 @@ html[data-theme="dark"] {
       .kpi-grid,
       .insight-grid,
       .equation-grid,
-      .missing-grid {
+      .missing-grid,
+      .bracket-legend {
         grid-template-columns: 1fr;
       }
 
@@ -785,6 +892,11 @@ html[data-theme="dark"] {
 
       .segmented button {
         flex: 1;
+      }
+
+      .bracket-marker-label {
+        max-width: 145px;
+        font-size: 0.66rem;
       }
     }
 
@@ -1173,6 +1285,112 @@ html[data-theme="dark"] {
             <div class="source-row"><span>U.S. investments and tax</span><span>IBKR, Fidelity, First Tech</span></div>
             <div class="source-row"><span>Spouse salary and withholding</span><span>Two income-information reports</span></div>
           </div>
+        </article>
+      </section>
+
+      <section class="section tax-bracket-appendix" aria-labelledby="tax-brackets-title" dir="rtl">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">נספח א׳</p>
+            <h2 id="tax-brackets-title">מדרגות מס לשנת 2024</h2>
+            <p>השלכה של ההכנסה הרגילה המאומתת על מדרגות המס השנתיות ליחיד. המדרגות הן שנתיות ואינן מוכפלות ב-8/12 רק משום שעבדת בישראל שמונה חודשים.</p>
+          </div>
+          <span class="confidence verified">מקור: לוח עזר רשות המסים 2024</span>
+        </div>
+
+        <article class="card panel">
+          <div class="panel-header">
+            <div>
+              <h3>מיקום ההכנסה על מדרגות המס</h3>
+              <p>הגרף מוגבל ל-₪850,000 כדי להציג את ההכנסה הרגילה שלך; רווחי הון מוצגים בנפרד ואינם חלק מהגרף.</p>
+            </div>
+            <span class="chip">הכנסה רגילה: ₪823,538</span>
+          </div>
+          <div class="bracket-chart" role="img" aria-label="תרשים מדרגות המס השנתיות לשנת 2024 עם סימון הכנסה רגילה של 823,538 שקלים וסף מס יסף של 721,560 שקלים">
+            <div class="bracket-band" aria-hidden="true">
+              <div class="bracket-segment" style="--segment-width:9.896%;--segment-color:var(--cp-accent-soft)"></div>
+              <div class="bracket-segment" style="--segment-width:4.306%;--segment-color:var(--cp-highlight)"></div>
+              <div class="bracket-segment" style="--segment-width:8.598%;--segment-color:var(--cp-link)"></div>
+              <div class="bracket-segment" style="--segment-width:8.880%;--segment-color:var(--cp-success)"></div>
+              <div class="bracket-segment" style="--segment-width:34.235%;--segment-color:var(--cp-warning)"></div>
+              <div class="bracket-segment" style="--segment-width:34.085%;--segment-color:var(--cp-danger)"></div>
+            </div>
+            <div class="bracket-marker surtax" style="--marker-left:84.889%;--marker-color:var(--cp-danger)" aria-hidden="true">
+              <span class="bracket-marker-label">סף מס יסף 3%: ₪721,560</span>
+            </div>
+            <div class="bracket-marker income" style="--marker-left:96.887%;--marker-color:var(--cp-accent)" aria-hidden="true">
+              <span class="bracket-marker-label">הכנסה רגילה מאומתת: ₪823,538</span>
+            </div>
+            <div class="bracket-axis" aria-hidden="true">
+              <span>₪0</span>
+              <span>₪269,280</span>
+              <span>₪560,280</span>
+              <span>₪850,000</span>
+            </div>
+          </div>
+          <div class="bracket-legend" aria-label="מקרא מדרגות המס">
+            <div class="bracket-legend-item"><span class="bracket-legend-swatch" style="--segment-color:var(--cp-accent-soft)"></span><span>עד ₪84,120 — 10%</span></div>
+            <div class="bracket-legend-item"><span class="bracket-legend-swatch" style="--segment-color:var(--cp-highlight)"></span><span>₪84,121–₪120,720 — 14%</span></div>
+            <div class="bracket-legend-item"><span class="bracket-legend-swatch" style="--segment-color:var(--cp-link)"></span><span>₪120,721–₪193,800 — 20%</span></div>
+            <div class="bracket-legend-item"><span class="bracket-legend-swatch" style="--segment-color:var(--cp-success)"></span><span>₪193,801–₪269,280 — 31%</span></div>
+            <div class="bracket-legend-item"><span class="bracket-legend-swatch" style="--segment-color:var(--cp-warning)"></span><span>₪269,281–₪560,280 — 35%</span></div>
+            <div class="bracket-legend-item"><span class="bracket-legend-swatch" style="--segment-color:var(--cp-danger)"></span><span>מעל ₪560,280 — 47%</span></div>
+          </div>
+        </article>
+
+        <div class="insight-grid" style="margin-top:16px">
+          <article class="card insight">
+            <span class="confidence combined">8 חודשי Microsoft</span>
+            <h3>הכנסה רגילה בדיווח Microsoft</h3>
+            <span class="big">₪806,063</span>
+            <p>ממוצע חשבונאי של כ-₪100,758 לחודש על פני שמונה חודשים. זה אינו אומר שמדרגות המס השנתיות מקוצרות לשמונה חודשים.</p>
+          </article>
+          <article class="card insight">
+            <span class="confidence verified">סה״כ רגיל מאומת</span>
+            <h3>כולל רכיב נאמן רגיל</h3>
+            <span class="big">₪823,538</span>
+            <p>₪806,063 בדיווח Microsoft ועוד ₪17,475 רכיב ordinary בטופס הנאמן.</p>
+          </article>
+          <article class="card insight">
+            <span class="confidence missing">שיעור שולי</span>
+            <h3>מדרגה עליונה ומס יסף</h3>
+            <span class="big">47% + 3%</span>
+            <p>החלק מעל ₪560,280 נמצא במדרגת 47%; החלק מעל ₪721,560 כפוף גם למס יסף של 3%, לפני זיכויים.</p>
+          </article>
+        </div>
+
+        <article class="card panel" style="margin-top:16px">
+          <h3>חישוב מס מדורג על ההכנסה הרגילה</h3>
+          <div class="table-wrap" style="margin-top:12px">
+            <table>
+              <caption>חישוב לפני נקודות זיכוי, זיכויי פנסיה והכנסות הוניות.</caption>
+              <thead>
+                <tr>
+                  <th scope="col">טווח הכנסה</th>
+                  <th scope="col">שיעור</th>
+                  <th scope="col" class="number">הכנסה בשכבה</th>
+                  <th scope="col" class="number">מס בשכבה</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>₪0–₪84,120</td><td>10%</td><td class="number">₪84,120</td><td class="number">₪8,412</td></tr>
+                <tr><td>₪84,121–₪120,720</td><td>14%</td><td class="number">₪36,600</td><td class="number">₪5,124</td></tr>
+                <tr><td>₪120,721–₪193,800</td><td>20%</td><td class="number">₪73,080</td><td class="number">₪14,616</td></tr>
+                <tr><td>₪193,801–₪269,280</td><td>31%</td><td class="number">₪75,480</td><td class="number">₪23,399</td></tr>
+                <tr><td>₪269,281–₪560,280</td><td>35%</td><td class="number">₪291,000</td><td class="number">₪101,850</td></tr>
+                <tr><td>₪560,281–₪823,538</td><td>47%</td><td class="number">₪263,258</td><td class="number">₪123,731</td></tr>
+              </tbody>
+              <tfoot>
+                <tr><th scope="row" colspan="3">מס רגיל לפני זיכויים</th><th class="number">₪277,132</th></tr>
+                <tr><th scope="row" colspan="3">מס יסף 3% על ₪101,978</th><th class="number">₪3,059</th></tr>
+              </tfoot>
+            </table>
+          </div>
+          <div class="equation" style="margin-top:12px">
+            <span class="equation-label">השלכה לפני זיכויי פנסיה</span>
+            <code>₪277,132 מס מדורג + ₪3,059 מס יסף = ₪280,191; פחות ₪15,173 זיכוי שתועד אצל המעסיק ≈ ₪265,018.</code>
+          </div>
+          <p style="margin:12px 0 0;color:var(--cp-text-muted);font-size:0.88rem">רווחי Section 102 והמסחר האישי בסך ₪1,775,702 אינם כלולים בגרף המדרגות הרגילות; הם מטופלים בנפרד בשיעור הוני של 25% ובמס יסף לפי העניין.</p>
         </article>
       </section>
     </main>
