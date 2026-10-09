@@ -128,6 +128,83 @@ html[data-theme="dark"] {
       box-shadow: 0 0 2px var(--cp-border), 0 1px 2px var(--cp-border);
     }
 
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: end;
+    }
+
+    .hero-field {
+      display: grid;
+      gap: 4px;
+      color: var(--cp-text-muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .hero-field select,
+    .hero-action {
+      min-height: 38px;
+      padding: 6px 10px;
+      border: 1px solid var(--cp-border-strong);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+    }
+
+    .hero-action {
+      cursor: pointer;
+    }
+
+    .tabs-wrap {
+      margin: 16px 0 0;
+      padding: 4px;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface);
+      box-shadow: 0 0 2px var(--cp-border), 0 1px 2px var(--cp-border);
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 4px;
+    }
+
+    .tab {
+      min-height: 42px;
+      padding: 8px 10px;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface-soft);
+      color: var(--cp-text);
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .tab:hover {
+      border-color: var(--cp-accent);
+      color: var(--cp-accent);
+    }
+
+    .tab[aria-selected="true"] {
+      border-color: var(--cp-accent);
+      background: var(--cp-accent);
+      color: var(--cp-accent-fg);
+    }
+
+    [data-dashboard-panel][hidden] {
+      display: none !important;
+    }
+
     .eyebrow {
       margin: 0;
       color: var(--cp-accent);
@@ -885,6 +962,24 @@ html[data-theme="dark"] {
         align-items: stretch;
       }
 
+      .hero-top {
+        display: grid;
+      }
+
+      .hero-actions {
+        align-items: stretch;
+      }
+
+      .hero-field,
+      .hero-field select,
+      .hero-action {
+        width: 100%;
+      }
+
+      .tabs {
+        grid-template-columns: 1fr;
+      }
+
       .control,
       .segmented {
         width: 100%;
@@ -907,9 +1002,15 @@ html[data-theme="dark"] {
     }
 
     @media print {
+      .tabs-wrap,
+      .hero-actions,
       .toolbar,
       .skip-link {
         display: none;
+      }
+
+      [data-dashboard-panel][hidden] {
+        display: block !important;
       }
 
       body {
@@ -931,18 +1032,42 @@ html[data-theme="dark"] {
   <a class="skip-link" href="#main-content">Skip to dashboard content</a>
   <div class="shell">
     <header class="hero">
-      <p class="eyebrow">Verified local source documents</p>
-      <h1>2024 Income and Taxes Dashboard</h1>
-      <p class="subtitle">2024 only. Amounts are in Israeli new shekels (ILS) unless noted. Newly verified U.S. records are shown separately where adding them could duplicate Microsoft shadow-payroll or equity income already reported in Israel.</p>
-      <div class="meta-row" aria-label="Dashboard scope">
-        <span class="chip">Offline and self-contained</span>
-        <span class="chip">Taxpayer view by default</span>
-        <span class="chip">No account or identity numbers</span>
-        <span class="chip">Theme follows system or URL setting</span>
+      <div class="hero-top">
+        <div>
+          <p class="eyebrow">Verified local source documents</p>
+          <h1>2024 Income and Taxes Dashboard</h1>
+          <p class="subtitle">Combined Israel and U.S. evidence reconciliation for calendar year 2024. Original currencies remain visible, and overlapping Microsoft payroll or equity amounts are not added twice.</p>
+          <div class="meta-row" aria-label="Dashboard scope">
+            <span class="chip">Tax period: 1 Jan–31 Dec 2024</span>
+            <span class="chip">Filed U.S. snapshot verified</span>
+            <span class="chip">No sensitive identifiers</span>
+          </div>
+        </div>
+        <div class="hero-actions" aria-label="Dashboard controls">
+          <label class="hero-field" for="theme-select">
+            Theme
+            <select id="theme-select">
+              <option value="system">System</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+          </label>
+          <button class="hero-action" id="print-button" type="button">Print all sections</button>
+        </div>
       </div>
     </header>
 
-    <div class="toolbar" aria-label="Dashboard controls">
+    <nav class="tabs-wrap" aria-label="Dashboard sections">
+      <div class="tabs" role="tablist" aria-orientation="horizontal">
+        <button class="tab" id="tab-overview" type="button" role="tab" aria-selected="true" aria-controls="panel-overview-summary panel-overview-composition panel-overview-estimate" tabindex="0">Overview / reconciliation</button>
+        <button class="tab" id="tab-israel" type="button" role="tab" aria-selected="false" aria-controls="panel-israel-equations panel-israel-notes" tabindex="-1">Israel</button>
+        <button class="tab" id="tab-usa" type="button" role="tab" aria-selected="false" aria-controls="panel-usa-evidence" tabindex="-1">USA</button>
+        <button class="tab" id="tab-conflicts" type="button" role="tab" aria-selected="false" aria-controls="panel-conflicts-double panel-conflicts-missing" tabindex="-1">Conflicts</button>
+        <button class="tab" id="tab-appendix" type="button" role="tab" aria-selected="false" aria-controls="panel-appendix-brackets" tabindex="-1">Appendix</button>
+      </div>
+    </nav>
+
+    <div class="toolbar" id="overview-controls" aria-label="Overview controls">
       <div class="control">
         <span class="control-label" id="scope-label">Income scope</span>
         <div class="segmented" role="group" aria-labelledby="scope-label">
@@ -961,13 +1086,13 @@ html[data-theme="dark"] {
     </div>
 
     <main id="main-content">
-      <section aria-labelledby="overview-title">
+      <section id="panel-overview-summary" data-dashboard-panel="overview" role="tabpanel" aria-labelledby="tab-overview">
         <div class="section-heading">
           <div>
             <h2 id="overview-title">Known 2024 snapshot</h2>
             <p>The ILS total uses non-overlapping Israeli-report categories. U.S. wages are not added until Microsoft payroll overlap is resolved.</p>
           </div>
-          <span class="confidence verified">Verified arithmetic</span>
+          <span class="confidence verified" id="arithmetic-status">Verified arithmetic</span>
         </div>
         <div class="kpi-grid">
           <article class="card kpi">
@@ -988,19 +1113,53 @@ html[data-theme="dark"] {
           <article class="card kpi">
             <p class="kpi-label">Reconciliation gaps</p>
             <p class="kpi-value">3 key gaps</p>
-            <p class="kpi-note">Unlocked final U.S. return, Microsoft payroll/equity mapping, and actual workday/Form 3922 detail.</p>
+            <p class="kpi-note">Full Form 1040/1116 schedules, Microsoft payroll/equity mapping, and actual workday/Form 3922 detail.</p>
+          </article>
+          <article class="card kpi">
+            <p class="kpi-label">Filed U.S. adjusted gross income</p>
+            <p class="kpi-value">$139,345</p>
+            <p class="kpi-note">Exact Form 8879 authorization value; not the same as W-2 Box 1 wages.</p>
+          </article>
+          <article class="card kpi">
+            <p class="kpi-label">Filed U.S. refund</p>
+            <p class="kpi-value">$20,267</p>
+            <p class="kpi-note">Withholding $48,456 less final total tax $28,189.</p>
           </article>
         </div>
       </section>
 
-      <section class="section" aria-labelledby="us-evidence-title">
+      <section class="section" id="panel-usa-evidence" data-dashboard-panel="usa" role="tabpanel" aria-labelledby="tab-usa" hidden>
         <div class="section-heading">
           <div>
-            <h2 id="us-evidence-title">New verified 2024 U.S. evidence</h2>
-            <p>USD amounts are shown from source records. Approximate ILS sensitivities use the 2024 annual-average rate of 3.7004 only where stated.</p>
+            <h2 id="us-evidence-title">USA</h2>
+            <p>Exact filed-return snapshot from Form 8879, followed by the W-2 and investment source records. Approximate ILS sensitivities use 3.7004 only where stated.</p>
           </div>
-          <span class="confidence verified">Source documents present</span>
+          <span class="confidence verified">Filed snapshot verified</span>
         </div>
+        <h3>Filed federal snapshot</h3>
+        <div class="kpi-grid">
+          <article class="card kpi">
+            <p class="kpi-label">Adjusted gross income</p>
+            <p class="kpi-value">$139,345</p>
+            <p class="kpi-note">Exact Form 8879 line 1.</p>
+          </article>
+          <article class="card kpi">
+            <p class="kpi-label">Total federal tax</p>
+            <p class="kpi-value">$28,189</p>
+            <p class="kpi-note">Exact Form 8879 line 2; approximately ₪104,311 at 3.7004 before Israel source/basket limits.</p>
+          </article>
+          <article class="card kpi">
+            <p class="kpi-label">Federal tax withheld</p>
+            <p class="kpi-value">$48,456</p>
+            <p class="kpi-note">Exact Form 8879 line 3; includes W-2 and any 1099 withholding reported on the return.</p>
+          </article>
+          <article class="card kpi">
+            <p class="kpi-label">Federal refund</p>
+            <p class="kpi-value">$20,267</p>
+            <p class="kpi-note">Exact Form 8879 line 4; $48,456 − $28,189.</p>
+          </article>
+        </div>
+        <h3 style="margin-top:20px">Source records behind the return</h3>
         <div class="kpi-grid">
           <article class="card kpi">
             <p class="kpi-label">Microsoft W-2</p>
@@ -1025,7 +1184,7 @@ html[data-theme="dark"] {
         </div>
       </section>
 
-      <section class="section" aria-labelledby="composition-title">
+      <section class="section" id="panel-overview-composition" data-dashboard-panel="overview" role="tabpanel" aria-labelledby="tab-overview">
         <div class="section-heading">
           <div>
             <h2 id="composition-title">Income and withholding composition</h2>
@@ -1107,7 +1266,7 @@ html[data-theme="dark"] {
         <p class="status" id="control-status" aria-live="polite"></p>
       </section>
 
-      <section class="section" aria-labelledby="estimate-title">
+      <section class="section" id="panel-overview-estimate" data-dashboard-panel="overview" role="tabpanel" aria-labelledby="tab-overview">
         <div class="section-heading">
           <div>
             <h2 id="estimate-title">Interim 2024 Israel tax and refund</h2>
@@ -1140,10 +1299,10 @@ html[data-theme="dark"] {
           <code>Refund = ₪785,184 Israeli withholding − estimated tax due; interim central scenario: ₪785,184 − ₪765,100 = ₪20,084.</code>
           <p style="margin:8px 0 0;color:var(--cp-text-muted);font-size:0.86rem">If the ₪16,818 prior-year loss is proven, it may add about ₪4,709. If the documented $691.16 margin interest is deductible, it may add about ₪716.</p>
         </div>
-        <p style="margin:12px 0 0;color:var(--cp-text-muted);font-size:0.9rem">The final W-2 result can be much better or worse depending on payroll overlap, workday sourcing, and the actual U.S. income tax shown on the locked filed return.</p>
+        <p style="margin:12px 0 0;color:var(--cp-text-muted);font-size:0.9rem">The filed U.S. total tax is now known, but the Israel result still depends on payroll overlap, workday sourcing, and the missing Form 1040/1116 detail that allocates tax by income source.</p>
       </section>
 
-      <section class="section" aria-labelledby="double-tax-title">
+      <section class="section" id="panel-conflicts-double" data-dashboard-panel="conflicts" role="tabpanel" aria-labelledby="tab-conflicts" hidden>
         <div class="section-heading">
           <div>
             <h2 id="double-tax-title">Double-tax review and refund opportunities</h2>
@@ -1159,10 +1318,10 @@ html[data-theme="dark"] {
             <p>The Microsoft Israeli ordinary-income report already shows ₪806,063. A grant/payroll mapping is required before adding any W-2 amount.</p>
           </article>
           <article class="card insight">
-            <span class="confidence combined">Preliminary sensitivity</span>
-            <h3>Potential U.S. wage-tax credit</h3>
-            <span class="big">Up to about ₪67,974</span>
-            <p>Rough proxy only: 101 of 262 weekdays × W-2 federal withholding × 3.7004. The actual credit is limited by final U.S. tax and the Israeli tax on the same U.S.-source income.</p>
+            <span class="confidence combined">Filed-tax ceiling</span>
+            <h3>Potential U.S. foreign-tax credit</h3>
+            <span class="big">Up to about ₪104,311</span>
+            <p>Exact filed total tax of $28,189 × 3.7004. This is an outer ceiling, not an allowed credit; Israel source/basket limits and Form 1116 detail still control.</p>
           </article>
           <article class="card insight">
             <span class="confidence verified">Smaller items</span>
@@ -1173,11 +1332,11 @@ html[data-theme="dark"] {
         </div>
         <div class="equation" style="margin-top:12px">
           <span class="equation-label">High-side sensitivity, not a filed estimate</span>
-          <code>₪20,084 interim refund + up to ₪67,974 preliminary wage credit ≈ ₪88,058, only if the same compensation is already in Israeli taxable income and the credit is fully allowed.</code>
+          <code>₪20,084 interim refund + up to ₪104,311 filed U.S. tax ceiling ≈ ₪124,395, only if the same income is already in Israeli taxable income and the full tax is creditable.</code>
         </div>
       </section>
 
-      <section class="section" aria-labelledby="equations-title">
+      <section class="section" id="panel-israel-equations" data-dashboard-panel="israel" role="tabpanel" aria-labelledby="tab-israel" hidden>
         <div class="section-heading">
           <div>
             <h2 id="equations-title">Source equations</h2>
@@ -1223,6 +1382,14 @@ html[data-theme="dark"] {
             <code>$255,066.33 × 3.7004 ≈ ₪943,847; shown separately, not added to ₪2,625,942.</code>
           </div>
           <div class="equation">
+            <span class="equation-label">Filed federal snapshot</span>
+            <code>$48,456 withholding − $28,189 total tax = $20,267 refund; AGI = $139,345.</code>
+          </div>
+          <div class="equation">
+            <span class="equation-label">Maximum filed U.S. tax evidence</span>
+            <code>$28,189 × 3.7004 ≈ ₪104,311 before Israel foreign-tax-credit source and basket limitations.</code>
+          </div>
+          <div class="equation">
             <span class="equation-label">U.S. dividends</span>
             <code>$1,462.02 + $22.40 + $540.36 = $2,024.78.</code>
           </div>
@@ -1237,7 +1404,7 @@ html[data-theme="dark"] {
         </div>
       </section>
 
-      <section class="section" aria-labelledby="missing-title">
+      <section class="section" id="panel-conflicts-missing" data-dashboard-panel="conflicts" role="tabpanel" aria-labelledby="tab-conflicts" hidden>
         <div class="section-heading">
           <div>
             <h2 id="missing-title">Still needed to finalize the cross-border result</h2>
@@ -1248,7 +1415,7 @@ html[data-theme="dark"] {
         <div class="missing-grid">
           <div class="missing-item">
             <span class="missing-icon" aria-hidden="true">!</span>
-            <div><strong>Unlocked filed U.S. return</strong><span>Needed for final federal income tax, refund, filing status, and creditable-tax amount. The available signed PDF is password-protected.</span></div>
+            <div><strong>Full Form 1040 and Form 1116 schedules</strong><span>Form 8879 now confirms AGI, total tax, withholding, and refund, but not filing status, taxable-income detail, source baskets, or foreign-tax-credit schedules.</span></div>
           </div>
           <div class="missing-item">
             <span class="missing-icon" aria-hidden="true">!</span>
@@ -1265,14 +1432,14 @@ html[data-theme="dark"] {
         </div>
       </section>
 
-      <section class="section notes" aria-label="Methodology and source confidence">
+      <section class="section notes" id="panel-israel-notes" data-dashboard-panel="israel" role="tabpanel" aria-labelledby="tab-israel" hidden>
         <article class="card note-card">
           <h2>Confidence and exclusions</h2>
           <ul>
-            <li><strong>Verified:</strong> Israeli forms plus W-2, IBKR 1099/activity, First Tech 1099-INT, and Fidelity year-end statements.</li>
+            <li><strong>Verified:</strong> Israeli forms plus Form 8879 filed-return snapshot, W-2, IBKR 1099/activity, First Tech 1099-INT, and Fidelity year-end statements.</li>
             <li><strong>Combined:</strong> Microsoft ordinary income cannot be separated reliably into pure salary, ESOP ordinary income, and ESPP.</li>
             <li><strong>Excluded from the ILS income total:</strong> W-2 wages because they may overlap Israeli shadow payroll; unverified loss carryforward; spouse values in taxpayer mode.</li>
-            <li><strong>Estimate scope:</strong> U.S. passive income is included approximately at 3.7004; W-2 wage tax and foreign-tax credit remain outside pending reconciliation.</li>
+            <li><strong>Estimate scope:</strong> U.S. passive income is included approximately at 3.7004. Filed U.S. total tax is exact, but the allowable Israel credit remains outside pending source/basket reconciliation.</li>
           </ul>
         </article>
         <article class="card note-card">
@@ -1282,13 +1449,14 @@ html[data-theme="dark"] {
             <div class="source-row"><span>Personal securities, dividends, interest</span><span>Leumi Form 867</span></div>
             <div class="source-row"><span>Trustee foreign dividends and tax</span><span>Trustee Form 867</span></div>
             <div class="source-row"><span>U.S. wages and withholding</span><span>Microsoft W-2</span></div>
+            <div class="source-row"><span>Filed U.S. AGI, total tax, withholding, refund</span><span>Form 8879</span></div>
             <div class="source-row"><span>U.S. investments and tax</span><span>IBKR, Fidelity, First Tech</span></div>
             <div class="source-row"><span>Spouse salary and withholding</span><span>Two income-information reports</span></div>
           </div>
         </article>
       </section>
 
-      <section class="section tax-bracket-appendix" aria-labelledby="tax-brackets-title" dir="rtl">
+      <section class="section tax-bracket-appendix" id="panel-appendix-brackets" data-dashboard-panel="appendix" role="tabpanel" aria-labelledby="tab-appendix" dir="rtl" hidden>
         <div class="section-heading">
           <div>
             <p class="eyebrow">נספח א׳</p>
@@ -1719,6 +1887,79 @@ html[data-theme="dark"] {
             : "Chart view selected.";
       });
     });
+
+    const federalSnapshot = Object.freeze({
+      adjustedGrossIncome: 139345,
+      totalTax: 28189,
+      withholding: 48456,
+      refund: 20267
+    });
+    window.__TAX_DASHBOARD_DATA__ = Object.freeze({
+      federalSnapshot,
+      israelInterim: Object.freeze({
+        withholding: 785184,
+        estimatedTax: 765100,
+        estimatedRefund: 20084
+      })
+    });
+
+    const arithmeticStatus = document.getElementById("arithmetic-status");
+    if (federalSnapshot.withholding - federalSnapshot.totalTax !== federalSnapshot.refund) {
+      arithmeticStatus.textContent = "Arithmetic check failed";
+      arithmeticStatus.classList.remove("verified");
+      arithmeticStatus.classList.add("missing");
+      console.error("Federal snapshot arithmetic does not reconcile.");
+    }
+
+    const dashboardTabs = Array.from(document.querySelectorAll('[role="tab"]'));
+    const dashboardPanels = Array.from(document.querySelectorAll("[data-dashboard-panel]"));
+    const overviewControls = document.getElementById("overview-controls");
+
+    const activateDashboardTab = (tab, moveFocus = false) => {
+      const panelName = tab.id.replace("tab-", "");
+      dashboardTabs.forEach((candidate) => {
+        const selected = candidate === tab;
+        candidate.setAttribute("aria-selected", String(selected));
+        candidate.tabIndex = selected ? 0 : -1;
+      });
+      dashboardPanels.forEach((panel) => {
+        panel.hidden = panel.dataset.dashboardPanel !== panelName;
+      });
+      overviewControls.hidden = panelName !== "overview";
+      if (moveFocus) tab.focus();
+    };
+
+    dashboardTabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => activateDashboardTab(tab));
+      tab.addEventListener("keydown", (event) => {
+        let nextIndex = null;
+        if (event.key === "ArrowRight") nextIndex = (index + 1) % dashboardTabs.length;
+        if (event.key === "ArrowLeft") nextIndex = (index - 1 + dashboardTabs.length) % dashboardTabs.length;
+        if (event.key === "Home") nextIndex = 0;
+        if (event.key === "End") nextIndex = dashboardTabs.length - 1;
+        if (nextIndex !== null) {
+          event.preventDefault();
+          activateDashboardTab(dashboardTabs[nextIndex], true);
+        }
+      });
+    });
+
+    const themeSelect = document.getElementById("theme-select");
+    const colorPreference = window.matchMedia("(prefers-color-scheme: dark)");
+    const themeParam = new URLSearchParams(window.location.search).get("clawpilotTheme");
+    themeSelect.value = themeParam === "light" || themeParam === "dark" ? themeParam : "system";
+    const applySelectedTheme = () => {
+      const theme =
+        themeSelect.value === "system"
+          ? (colorPreference.matches ? "dark" : "light")
+          : themeSelect.value;
+      document.documentElement.setAttribute("data-theme", theme);
+    };
+    themeSelect.addEventListener("change", applySelectedTheme);
+    colorPreference.addEventListener("change", () => {
+      if (themeSelect.value === "system") applySelectedTheme();
+    });
+    document.getElementById("print-button").addEventListener("click", () => window.print());
 
     render();
   </script>
