@@ -1,0 +1,1209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>
+  (() => {
+    const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+    const theme =
+      param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026 Financial Accounts Inventory Input</title>
+<style>
+:root {
+  color-scheme: light;
+  --cp-bg: #f7f4ef;
+  --cp-bg-elevated: #fcfbf8;
+  --cp-surface: #ffffff;
+  --cp-surface-soft: #f5f5f5;
+  --cp-border: #dedede;
+  --cp-border-strong: #919191;
+  --cp-text: #242424;
+  --cp-text-muted: #5c5c5c;
+  --cp-text-soft: #6f6f6f;
+  --cp-accent: #b11f4b;
+  --cp-accent-hover: #9a1a41;
+  --cp-accent-soft: rgba(177, 31, 75, 0.08);
+  --cp-accent-fg: #ffffff;
+  --cp-success: #16a34a;
+  --cp-danger: #dc2626;
+  --cp-warning: #f59e0b;
+  --cp-link: #0078d4;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+  --cp-overlay: rgba(255, 255, 255, 0.8);
+  --cp-panel: rgba(255, 255, 255, 0.86);
+  --cp-panel-strong: rgba(255, 255, 255, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.55);
+  --cp-highlight: rgba(177, 31, 75, 0.12);
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --cp-bg: #3d3b3a;
+  --cp-bg-elevated: #343231;
+  --cp-surface: #292929;
+  --cp-surface-soft: #2e2e2e;
+  --cp-border: #474747;
+  --cp-border-strong: #5f5f5f;
+  --cp-text: #dedede;
+  --cp-text-muted: #919191;
+  --cp-text-soft: #b0b0b0;
+  --cp-accent: #fd8ea1;
+  --cp-accent-hover: #fb7b91;
+  --cp-accent-soft: rgba(253, 142, 161, 0.14);
+  --cp-accent-fg: #1a1a1a;
+  --cp-success: #4ade80;
+  --cp-danger: #f87171;
+  --cp-warning: #fbbf24;
+  --cp-link: #4da6ff;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --cp-overlay: rgba(41, 41, 41, 0.88);
+  --cp-panel: rgba(41, 41, 41, 0.72);
+  --cp-panel-strong: rgba(41, 41, 41, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.04);
+  --cp-highlight: rgba(253, 142, 161, 0.12);
+}
+* { box-sizing: border-box; }
+html { background: var(--cp-bg); }
+body {
+  margin: 0;
+  background: var(--cp-bg);
+  color: var(--cp-text);
+  font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.45;
+}
+main {
+  width: min(1560px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 32px 0 48px;
+}
+h1, h2, h3, p { margin: 0; }
+h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); line-height: 1.12; }
+h2 { font-size: 1.25rem; }
+h3 { font-size: 1rem; }
+.subtitle { color: var(--cp-text-muted); }
+.draft-note {
+  margin-top: 12px;
+  padding: 12px 16px;
+  border: 1px solid var(--cp-warning);
+  border-radius: 0.625rem;
+  background: var(--cp-surface);
+}
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+.kpi, .panel, .chart-card {
+  background: var(--cp-surface);
+  border: 1px solid var(--cp-border);
+  box-shadow: 0 1px 2px var(--cp-border);
+}
+.kpi {
+  min-height: 112px;
+  padding: 16px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+}
+.kpi-label { color: var(--cp-text-muted); font-size: 0.84rem; font-weight: 600; }
+.kpi-value {
+  font-size: clamp(1.3rem, 3vw, 2rem);
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+.rate-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.rate-control span { font-size: 1.35rem; font-weight: 750; }
+.section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.section-heading p { color: var(--cp-text-muted); font-size: 0.9rem; }
+.panel {
+  border-radius: 16px;
+  padding: 16px;
+  margin-top: 20px;
+}
+.table-wrap { width: 100%; overflow-x: auto; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+}
+th, td {
+  padding: 9px 7px;
+  border-bottom: 1px solid var(--cp-border);
+  text-align: left;
+  vertical-align: top;
+}
+th {
+  color: var(--cp-text-muted);
+  background: var(--cp-surface-soft);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+tbody tr:last-child td { border-bottom: 0; }
+.institution { font-weight: 650; min-width: 190px; }
+.account-number {
+  font-family: Consolas, "Courier New", Courier, monospace;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  font-variant-numeric: tabular-nums;
+}
+.amount, .currency, .baseline {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+input, select {
+  width: 100%;
+  min-width: 118px;
+  padding: 8px;
+  border: 1px solid var(--cp-border-strong);
+  border-radius: 0.625rem;
+  background: var(--cp-bg-elevated);
+  color: var(--cp-text);
+  font: inherit;
+}
+input:focus, select:focus {
+  outline: 2px solid var(--cp-accent);
+  outline-offset: 1px;
+}
+.rate-input { min-width: 0; max-width: 150px; font-size: 1.15rem; font-weight: 750; }
+.charts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.chart-card {
+  border-radius: 16px;
+  padding: 16px;
+}
+.chart-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.currency-pill {
+  border: 1px solid var(--cp-border-strong);
+  border-radius: 0.625rem;
+  padding: 2px 8px;
+  color: var(--cp-text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.bar-row + .bar-row { margin-top: 12px; }
+.bar-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 5px;
+  color: var(--cp-text-muted);
+  font-size: 0.82rem;
+}
+.bar-label strong {
+  color: var(--cp-text);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.bar-track {
+  width: 100%;
+  height: 9px;
+  border-radius: 0.625rem;
+  background: var(--cp-surface-soft);
+  overflow: hidden;
+}
+.bar-fill {
+  display: block;
+  height: 100%;
+  min-width: 3px;
+  border-radius: 0.625rem;
+  background: var(--cp-success);
+}
+.empty-chart { color: var(--cp-text-muted); font-size: 0.86rem; }
+.danger-panel { border-color: var(--cp-danger); }
+.danger-panel h2, .danger-count { color: var(--cp-danger); }
+.danger-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  min-height: 2rem;
+  margin-left: 8px;
+  border: 1px solid var(--cp-danger);
+  border-radius: 0.625rem;
+  font-size: 0.9rem;
+  font-weight: 750;
+  vertical-align: middle;
+}
+.missing-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 20px;
+  margin: 0;
+  padding-left: 20px;
+  color: var(--cp-text-muted);
+}
+.appendix-panel {
+  background: var(--cp-bg-elevated);
+}
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+button {
+  padding: 8px 12px;
+  border: 1px solid var(--cp-border-strong);
+  border-radius: 0.625rem;
+  background: var(--cp-surface-soft);
+  color: var(--cp-text);
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+}
+button:hover { border-color: var(--cp-accent); }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+@media (max-width: 1050px) {
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .charts, .missing-list { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  main { width: min(100% - 20px, 1560px); padding-top: 20px; }
+  .kpis { grid-template-columns: 1fr; }
+  .section-heading { align-items: flex-start; flex-direction: column; }
+  .panel { padding: 12px; }
+  .table-wrap { overflow: visible; }
+  table, thead, tbody, th, td, tr { display: block; }
+  thead { display: none; }
+  tbody { display: grid; gap: 10px; }
+  tbody tr {
+    border: 1px solid var(--cp-border);
+    border-radius: 0.625rem;
+    background: var(--cp-bg-elevated);
+    padding: 8px 10px;
+  }
+  td {
+    display: grid;
+    grid-template-columns: minmax(112px, 38%) minmax(0, 1fr);
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--cp-border);
+    white-space: normal;
+  }
+  td::before {
+    content: attr(data-label);
+    color: var(--cp-text-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  tbody tr td:last-child { border-bottom: 0; }
+  input, select { min-width: 0; }
+}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>2026 Financial Accounts Inventory Input</h1>
+    <p class="subtitle">Update worksheet · Enter each 2026 balance and its as-of date. Values are stored only in this browser's local storage.</p>
+    <p class="draft-note"><strong>Draft:</strong> totals and charts remain incomplete until the 2026 balance questions below are answered.</p>
+  </header>
+
+  <section class="kpis" aria-label="2026 inventory summary">
+    <article class="kpi">
+      <span class="kpi-label">Total cash in USD</span>
+      <span id="total-usd" class="kpi-value">—</span>
+    </article>
+    <article class="kpi">
+      <span class="kpi-label">Held in USD</span>
+      <span id="held-usd" class="kpi-value">$0.00</span>
+    </article>
+    <article class="kpi">
+      <span class="kpi-label">Held in ILS</span>
+      <span id="held-ils" class="kpi-value">₪0.00</span>
+    </article>
+    <article class="kpi">
+      <span class="kpi-label">USD / ILS rate</span>
+      <label class="sr-only" for="exchange-rate">ILS per one USD</label>
+      <div class="rate-control"><span>₪</span><input id="exchange-rate" class="rate-input" type="number" min="0.0001" step="0.0001" placeholder="Enter rate"></div>
+    </article>
+  </section>
+
+  <section class="panel" aria-labelledby="questions-title">
+    <div class="section-heading">
+      <h2 id="questions-title">2026 balance questions</h2>
+      <p>Use the 2025 baseline only as a reference; do not copy it unless the balance is genuinely unchanged.</p>
+    </div>
+    <div class="table-wrap">
+      <table id="update-table">
+        <thead>
+          <tr>
+            <th scope="col">Owner</th>
+            <th scope="col">Institution / account</th>
+            <th scope="col">Account type</th>
+            <th scope="col">Full account number</th>
+            <th scope="col">Country</th>
+            <th scope="col">Currency</th>
+            <th scope="col">2025 baseline</th>
+            <th scope="col">2026 amount</th>
+            <th scope="col">As-of date</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            <tr data-account-row data-index="0" data-currency="ILS" data-default-status="active">
+              <td data-label="Owner">Ali</td>
+              <td data-label="Institution / account" class="institution">Bank Leumi · current account</td>
+              <td data-label="Account type">Bank cash / deposit</td>
+              <td data-label="Full account number" class="account-number">882-20703/56</td>
+              <td data-label="Country">Israel</td>
+              <td data-label="Currency" class="currency">ILS</td>
+              <td data-label="2025 baseline" class="amount baseline">₪7,764.37</td>
+              <td data-label="2026 amount">
+                <label class="sr-only" for="amount-0">2026 amount for Bank Leumi · current account</label>
+                <input id="amount-0" class="balance-input" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Enter amount">
+              </td>
+              <td data-label="As-of date">
+                <label class="sr-only" for="date-0">As-of date for Bank Leumi · current account</label>
+                <input id="date-0" class="date-input" type="date">
+              </td>
+              <td data-label="Status">
+                <label class="sr-only" for="status-0">Status for Bank Leumi · current account</label>
+                <select id="status-0" class="status-input">
+                  <option value="active" selected>Active</option>
+                  <option value="closed">Closed</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr data-account-row data-index="1" data-currency="USD" data-default-status="active">
+              <td data-label="Owner">Ali</td>
+              <td data-label="Institution / account" class="institution">First Tech Federal Credit Union · combined deposits</td>
+              <td data-label="Account type">Bank cash / deposits</td>
+              <td data-label="Full account number" class="account-number">Combined (4 accounts)</td>
+              <td data-label="Country">United States</td>
+              <td data-label="Currency" class="currency">USD</td>
+              <td data-label="2025 baseline" class="amount baseline">Not found</td>
+              <td data-label="2026 amount">
+                <label class="sr-only" for="amount-1">2026 amount for First Tech Federal Credit Union · combined deposits</label>
+                <input id="amount-1" class="balance-input" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Enter amount">
+              </td>
+              <td data-label="As-of date">
+                <label class="sr-only" for="date-1">As-of date for First Tech Federal Credit Union · combined deposits</label>
+                <input id="date-1" class="date-input" type="date">
+              </td>
+              <td data-label="Status">
+                <label class="sr-only" for="status-1">Status for First Tech Federal Credit Union · combined deposits</label>
+                <select id="status-1" class="status-input">
+                  <option value="active" selected>Active</option>
+                  <option value="closed">Closed</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr data-account-row data-index="2" data-currency="USD" data-default-status="active">
+              <td data-label="Owner">Ali</td>
+              <td data-label="Institution / account" class="institution">Interactive Brokers</td>
+              <td data-label="Account type">Brokerage / margin</td>
+              <td data-label="Full account number" class="account-number">U15834456</td>
+              <td data-label="Country">United States</td>
+              <td data-label="Currency" class="currency">USD</td>
+              <td data-label="2025 baseline" class="amount baseline">$693,184.89</td>
+              <td data-label="2026 amount">
+                <label class="sr-only" for="amount-2">2026 amount for Interactive Brokers</label>
+                <input id="amount-2" class="balance-input" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Enter amount">
+              </td>
+              <td data-label="As-of date">
+                <label class="sr-only" for="date-2">As-of date for Interactive Brokers</label>
+                <input id="date-2" class="date-input" type="date">
+              </td>
+              <td data-label="Status">
+                <label class="sr-only" for="status-2">Status for Interactive Brokers</label>
+                <select id="status-2" class="status-input">
+                  <option value="active" selected>Active</option>
+                  <option value="closed">Closed</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr data-account-row data-index="3" data-currency="USD" data-default-status="active">
+              <td data-label="Owner">Ali</td>
+              <td data-label="Institution / account" class="institution">Morgan Stanley at Work · Microsoft Stock Awards</td>
+              <td data-label="Account type">Employee stock plan</td>
+              <td data-label="Full account number" class="account-number">MS-E7AEDC-24</td>
+              <td data-label="Country">United States</td>
+              <td data-label="Currency" class="currency">USD</td>
+              <td data-label="2025 baseline" class="amount baseline">$42,350.47</td>
+              <td data-label="2026 amount">
+                <label class="sr-only" for="amount-3">2026 amount for Morgan Stanley at Work · Microsoft Stock Awards</label>
+                <input id="amount-3" class="balance-input" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Enter amount">
+              </td>
+              <td data-label="As-of date">
+                <label class="sr-only" for="date-3">As-of date for Morgan Stanley at Work · Microsoft Stock Awards</label>
+                <input id="date-3" class="date-input" type="date">
+              </td>
+              <td data-label="Status">
+                <label class="sr-only" for="status-3">Status for Morgan Stanley at Work · Microsoft Stock Awards</label>
+                <select id="status-3" class="status-input">
+                  <option value="active" selected>Active</option>
+                  <option value="closed">Closed</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr data-account-row data-index="4" data-currency="USD" data-default-status="unknown">
+              <td data-label="Owner">Ali</td>
+              <td data-label="Institution / account" class="institution">Fidelity Brokerage Services</td>
+              <td data-label="Account type">Brokerage</td>
+              <td data-label="Full account number" class="account-number">Z25-987304</td>
+              <td data-label="Country">United States</td>
+              <td data-label="Currency" class="currency">USD</td>
+              <td data-label="2025 baseline" class="amount baseline">Not found</td>
+              <td data-label="2026 amount">
+                <label class="sr-only" for="amount-4">2026 amount for Fidelity Brokerage Services</label>
+                <input id="amount-4" class="balance-input" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Enter amount">
+              </td>
+              <td data-label="As-of date">
+                <label class="sr-only" for="date-4">As-of date for Fidelity Brokerage Services</label>
+                <input id="date-4" class="date-input" type="date">
+              </td>
+              <td data-label="Status">
+                <label class="sr-only" for="status-4">Status for Fidelity Brokerage Services</label>
+                <select id="status-4" class="status-input">
+                  <option value="active">Active</option>
+                  <option value="closed">Closed</option>
+                  <option value="unknown" selected>Unknown</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr data-account-row data-index="5" data-currency="USD" data-default-status="active">
+              <td data-label="Owner">Ali</td>
+              <td data-label="Institution / account" class="institution">Robinhood</td>
+              <td data-label="Account type">Brokerage</td>
+              <td data-label="Full account number" class="account-number">482627866</td>
+              <td data-label="Country">United States</td>
+              <td data-label="Currency" class="currency">USD</td>
+              <td data-label="2025 baseline" class="amount baseline">Not found</td>
+              <td data-label="2026 amount">
+                <label class="sr-only" for="amount-5">2026 amount for Robinhood</label>
+                <input id="amount-5" class="balance-input" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Enter amount">
+              </td>
+              <td data-label="As-of date">
+                <label class="sr-only" for="date-5">As-of date for Robinhood</label>
+                <input id="date-5" class="date-input" type="date">
+              </td>
+              <td data-label="Status">
+                <label class="sr-only" for="status-5">Status for Robinhood</label>
+                <select id="status-5" class="status-input">
+                  <option value="active" selected>Active</option>
+                  <option value="closed">Closed</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr data-account-row data-index="6" data-currency="USD" data-default-status="active">
+              <td data-label="Owner">Ali</td>
+              <td data-label="Institution / account" class="institution">Fidelity · Microsoft Savings Plus 401(k)</td>
+              <td data-label="Account type">401(k) retirement</td>
+              <td data-label="Full account number" class="account-number">Not shown</td>
+              <td data-label="Country">United States</td>
+              <td data-label="Currency" class="currency">USD</td>
+              <td data-label="2025 baseline" class="amount baseline">$76,418.23</td>
+              <td data-label="2026 amount">
+                <label class="sr-only" for="amount-6">2026 amount for Fidelity · Microsoft Savings Plus 401(k)</label>
+                <input id="amount-6" class="balance-input" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Enter amount">
+              </td>
+              <td data-label="As-of date">
+                <label class="sr-only" for="date-6">As-of date for Fidelity · Microsoft Savings Plus 401(k)</label>
+                <input id="date-6" class="date-input" type="date">
+              </td>
+              <td data-label="Status">
+                <label class="sr-only" for="status-6">Status for Fidelity · Microsoft Savings Plus 401(k)</label>
+                <select id="status-6" class="status-input">
+                  <option value="active" selected>Active</option>
+                  <option value="closed">Closed</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr data-account-row data-index="7" data-currency="ILS" data-default-status="active">
+              <td data-label="Owner">Ali</td>
+              <td data-label="Institution / account" class="institution">Meitav · education fund</td>
+              <td data-label="Account type">Education fund</td>
+              <td data-label="Full account number" class="account-number">033-231-116802-1</td>
+              <td data-label="Country">Israel</td>
+              <td data-label="Currency" class="currency">ILS</td>
+              <td data-label="2025 baseline" class="amount baseline">₪131,804.79</td>
+              <td data-label="2026 amount">
+                <label class="sr-only" for="amount-7">2026 amount for Meitav · education fund</label>
+                <input id="amount-7" class="balance-input" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Enter amount">
+              </td>
+              <td data-label="As-of date">
+                <label class="sr-only" for="date-7">As-of date for Meitav · education fund</label>
+                <input id="date-7" class="date-input" type="date">
+              </td>
+              <td data-label="Status">
+                <label class="sr-only" for="status-7">Status for Meitav · education fund</label>
+                <select id="status-7" class="status-input">
+                  <option value="active" selected>Active</option>
+                  <option value="closed">Closed</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr data-account-row data-index="8" data-currency="ILS" data-default-status="active">
+              <td data-label="Owner">Ali</td>
+              <td data-label="Institution / account" class="institution">Migdal · Migdlor Life 2009</td>
+              <td data-label="Account type">Insurance savings</td>
+              <td data-label="Full account number" class="account-number">171087256</td>
+              <td data-label="Country">Israel</td>
+              <td data-label="Currency" class="currency">ILS</td>
+              <td data-label="2025 baseline" class="amount baseline">₪497,064.00</td>
+              <td data-label="2026 amount">
+                <label class="sr-only" for="amount-8">2026 amount for Migdal · Migdlor Life 2009</label>
+                <input id="amount-8" class="balance-input" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Enter amount">
+              </td>
+              <td data-label="As-of date">
+                <label class="sr-only" for="date-8">As-of date for Migdal · Migdlor Life 2009</label>
+                <input id="date-8" class="date-input" type="date">
+              </td>
+              <td data-label="Status">
+                <label class="sr-only" for="status-8">Status for Migdal · Migdlor Life 2009</label>
+                <select id="status-8" class="status-input">
+                  <option value="active" selected>Active</option>
+                  <option value="closed">Closed</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr data-account-row data-index="9" data-currency="ILS" data-default-status="active">
+              <td data-label="Owner">Ali</td>
+              <td data-label="Institution / account" class="institution">Migdal · Migdlor policy components</td>
+              <td data-label="Account type">Insurance savings</td>
+              <td data-label="Full account number" class="account-number">171087257</td>
+              <td data-label="Country">Israel</td>
+              <td data-label="Currency" class="currency">ILS</td>
+              <td data-label="2025 baseline" class="amount baseline">₪254.00</td>
+              <td data-label="2026 amount">
+                <label class="sr-only" for="amount-9">2026 amount for Migdal · Migdlor policy components</label>
+                <input id="amount-9" class="balance-input" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Enter amount">
+              </td>
+              <td data-label="As-of date">
+                <label class="sr-only" for="date-9">As-of date for Migdal · Migdlor policy components</label>
+                <input id="date-9" class="date-input" type="date">
+              </td>
+              <td data-label="Status">
+                <label class="sr-only" for="status-9">Status for Migdal · Migdlor policy components</label>
+                <select id="status-9" class="status-input">
+                  <option value="active" selected>Active</option>
+                  <option value="closed">Closed</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr data-account-row data-index="10" data-currency="ILS" data-default-status="active">
+              <td data-label="Owner">Ali</td>
+              <td data-label="Institution / account" class="institution">Migdal Makafet</td>
+              <td data-label="Account type">Provident fund</td>
+              <td data-label="Full account number" class="account-number">37448834</td>
+              <td data-label="Country">Israel</td>
+              <td data-label="Currency" class="currency">ILS</td>
+              <td data-label="2025 baseline" class="amount baseline">₪28,250.62</td>
+              <td data-label="2026 amount">
+                <label class="sr-only" for="amount-10">2026 amount for Migdal Makafet</label>
+                <input id="amount-10" class="balance-input" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Enter amount">
+              </td>
+              <td data-label="As-of date">
+                <label class="sr-only" for="date-10">As-of date for Migdal Makafet</label>
+                <input id="date-10" class="date-input" type="date">
+              </td>
+              <td data-label="Status">
+                <label class="sr-only" for="status-10">Status for Migdal Makafet</label>
+                <select id="status-10" class="status-input">
+                  <option value="active" selected>Active</option>
+                  <option value="closed">Closed</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr data-account-row data-index="11" data-currency="ILS" data-default-status="active">
+              <td data-label="Owner">Ali</td>
+              <td data-label="Institution / account" class="institution">Harel Pension &amp; Gemel</td>
+              <td data-label="Account type">Pension</td>
+              <td data-label="Full account number" class="account-number">Not shown</td>
+              <td data-label="Country">Israel</td>
+              <td data-label="Currency" class="currency">ILS</td>
+              <td data-label="2025 baseline" class="amount baseline">₪651,443.02</td>
+              <td data-label="2026 amount">
+                <label class="sr-only" for="amount-11">2026 amount for Harel Pension &amp; Gemel</label>
+                <input id="amount-11" class="balance-input" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Enter amount">
+              </td>
+              <td data-label="As-of date">
+                <label class="sr-only" for="date-11">As-of date for Harel Pension &amp; Gemel</label>
+                <input id="date-11" class="date-input" type="date">
+              </td>
+              <td data-label="Status">
+                <label class="sr-only" for="status-11">Status for Harel Pension &amp; Gemel</label>
+                <select id="status-11" class="status-input">
+                  <option value="active" selected>Active</option>
+                  <option value="closed">Closed</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr data-account-row data-index="12" data-currency="ILS" data-default-status="active">
+              <td data-label="Owner">Assala</td>
+              <td data-label="Institution / account" class="institution">Clal Pension &amp; Gemel</td>
+              <td data-label="Account type">Pension</td>
+              <td data-label="Full account number" class="account-number">Not shown</td>
+              <td data-label="Country">Israel</td>
+              <td data-label="Currency" class="currency">ILS</td>
+              <td data-label="2025 baseline" class="amount baseline">₪92,060.97</td>
+              <td data-label="2026 amount">
+                <label class="sr-only" for="amount-12">2026 amount for Clal Pension &amp; Gemel</label>
+                <input id="amount-12" class="balance-input" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Enter amount">
+              </td>
+              <td data-label="As-of date">
+                <label class="sr-only" for="date-12">As-of date for Clal Pension &amp; Gemel</label>
+                <input id="date-12" class="date-input" type="date">
+              </td>
+              <td data-label="Status">
+                <label class="sr-only" for="status-12">Status for Clal Pension &amp; Gemel</label>
+                <select id="status-12" class="status-input">
+                  <option value="active" selected>Active</option>
+                  <option value="closed">Closed</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr data-account-row data-index="13" data-currency="ILS" data-default-status="active">
+              <td data-label="Owner">Assala</td>
+              <td data-label="Institution / account" class="institution">Yahav P.R.H. · education fund</td>
+              <td data-label="Account type">Education fund</td>
+              <td data-label="Full account number" class="account-number">141016</td>
+              <td data-label="Country">Israel</td>
+              <td data-label="Currency" class="currency">ILS</td>
+              <td data-label="2025 baseline" class="amount baseline">₪28,139.42</td>
+              <td data-label="2026 amount">
+                <label class="sr-only" for="amount-13">2026 amount for Yahav P.R.H. · education fund</label>
+                <input id="amount-13" class="balance-input" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Enter amount">
+              </td>
+              <td data-label="As-of date">
+                <label class="sr-only" for="date-13">As-of date for Yahav P.R.H. · education fund</label>
+                <input id="date-13" class="date-input" type="date">
+              </td>
+              <td data-label="Status">
+                <label class="sr-only" for="status-13">Status for Yahav P.R.H. · education fund</label>
+                <select id="status-13" class="status-input">
+                  <option value="active" selected>Active</option>
+                  <option value="closed">Closed</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr data-account-row data-index="14" data-currency="ILS" data-default-status="active">
+              <td data-label="Owner">Assala</td>
+              <td data-label="Institution / account" class="institution">Gal · teaching employees provident fund</td>
+              <td data-label="Account type">Provident fund</td>
+              <td data-label="Full account number" class="account-number">5276002</td>
+              <td data-label="Country">Israel</td>
+              <td data-label="Currency" class="currency">ILS</td>
+              <td data-label="2025 baseline" class="amount baseline">₪7,375.06</td>
+              <td data-label="2026 amount">
+                <label class="sr-only" for="amount-14">2026 amount for Gal · teaching employees provident fund</label>
+                <input id="amount-14" class="balance-input" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Enter amount">
+              </td>
+              <td data-label="As-of date">
+                <label class="sr-only" for="date-14">As-of date for Gal · teaching employees provident fund</label>
+                <input id="date-14" class="date-input" type="date">
+              </td>
+              <td data-label="Status">
+                <label class="sr-only" for="status-14">Status for Gal · teaching employees provident fund</label>
+                <select id="status-14" class="status-input">
+                  <option value="active" selected>Active</option>
+                  <option value="closed">Closed</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr data-account-row data-index="15" data-currency="ILS" data-default-status="active">
+              <td data-label="Owner">Assala</td>
+              <td data-label="Institution / account" class="institution">Harel · education fund</td>
+              <td data-label="Account type">Education fund</td>
+              <td data-label="Full account number" class="account-number">155518813</td>
+              <td data-label="Country">Israel</td>
+              <td data-label="Currency" class="currency">ILS</td>
+              <td data-label="2025 baseline" class="amount baseline">₪1,340.01</td>
+              <td data-label="2026 amount">
+                <label class="sr-only" for="amount-15">2026 amount for Harel · education fund</label>
+                <input id="amount-15" class="balance-input" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Enter amount">
+              </td>
+              <td data-label="As-of date">
+                <label class="sr-only" for="date-15">As-of date for Harel · education fund</label>
+                <input id="date-15" class="date-input" type="date">
+              </td>
+              <td data-label="Status">
+                <label class="sr-only" for="status-15">Status for Harel · education fund</label>
+                <select id="status-15" class="status-input">
+                  <option value="active" selected>Active</option>
+                  <option value="closed">Closed</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr data-account-row data-index="16" data-currency="ILS" data-default-status="active">
+              <td data-label="Owner">Assala</td>
+              <td data-label="Institution / account" class="institution">Harel Pension &amp; Gemel</td>
+              <td data-label="Account type">Pension</td>
+              <td data-label="Full account number" class="account-number">Not shown</td>
+              <td data-label="Country">Israel</td>
+              <td data-label="Currency" class="currency">ILS</td>
+              <td data-label="2025 baseline" class="amount baseline">₪153,967.34</td>
+              <td data-label="2026 amount">
+                <label class="sr-only" for="amount-16">2026 amount for Harel Pension &amp; Gemel</label>
+                <input id="amount-16" class="balance-input" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Enter amount">
+              </td>
+              <td data-label="As-of date">
+                <label class="sr-only" for="date-16">As-of date for Harel Pension &amp; Gemel</label>
+                <input id="date-16" class="date-input" type="date">
+              </td>
+              <td data-label="Status">
+                <label class="sr-only" for="status-16">Status for Harel Pension &amp; Gemel</label>
+                <select id="status-16" class="status-input">
+                  <option value="active" selected>Active</option>
+                  <option value="closed">Closed</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr data-account-row data-index="17" data-currency="ILS" data-default-status="active">
+              <td data-label="Owner">Assala</td>
+              <td data-label="Institution / account" class="institution">Teachers &amp; Kindergarten Education Fund · regular track</td>
+              <td data-label="Account type">Education fund</td>
+              <td data-label="Full account number" class="account-number">18177188</td>
+              <td data-label="Country">Israel</td>
+              <td data-label="Currency" class="currency">ILS</td>
+              <td data-label="2025 baseline" class="amount baseline">₪50,649.97</td>
+              <td data-label="2026 amount">
+                <label class="sr-only" for="amount-17">2026 amount for Teachers &amp; Kindergarten Education Fund · regular track</label>
+                <input id="amount-17" class="balance-input" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Enter amount">
+              </td>
+              <td data-label="As-of date">
+                <label class="sr-only" for="date-17">As-of date for Teachers &amp; Kindergarten Education Fund · regular track</label>
+                <input id="date-17" class="date-input" type="date">
+              </td>
+              <td data-label="Status">
+                <label class="sr-only" for="status-17">Status for Teachers &amp; Kindergarten Education Fund · regular track</label>
+                <select id="status-17" class="status-input">
+                  <option value="active" selected>Active</option>
+                  <option value="closed">Closed</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr data-account-row data-index="18" data-currency="ILS" data-default-status="active">
+              <td data-label="Owner">Assala</td>
+              <td data-label="Institution / account" class="institution">Teachers &amp; Kindergarten Education Fund · regular track</td>
+              <td data-label="Account type">Education fund</td>
+              <td data-label="Full account number" class="account-number">19630367</td>
+              <td data-label="Country">Israel</td>
+              <td data-label="Currency" class="currency">ILS</td>
+              <td data-label="2025 baseline" class="amount baseline">₪23,601.91</td>
+              <td data-label="2026 amount">
+                <label class="sr-only" for="amount-18">2026 amount for Teachers &amp; Kindergarten Education Fund · regular track</label>
+                <input id="amount-18" class="balance-input" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Enter amount">
+              </td>
+              <td data-label="As-of date">
+                <label class="sr-only" for="date-18">As-of date for Teachers &amp; Kindergarten Education Fund · regular track</label>
+                <input id="date-18" class="date-input" type="date">
+              </td>
+              <td data-label="Status">
+                <label class="sr-only" for="status-18">Status for Teachers &amp; Kindergarten Education Fund · regular track</label>
+                <select id="status-18" class="status-input">
+                  <option value="active" selected>Active</option>
+                  <option value="closed">Closed</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr data-account-row data-index="19" data-currency="USD" data-default-status="unknown">
+              <td data-label="Owner">Ali</td>
+              <td data-label="Institution / account" class="institution">Fidelity Stock Plan Services</td>
+              <td data-label="Account type">Employee stock-plan brokerage</td>
+              <td data-label="Full account number" class="account-number">I84-854141</td>
+              <td data-label="Country">United States</td>
+              <td data-label="Currency" class="currency">USD</td>
+              <td data-label="2025 baseline" class="amount baseline">Not found</td>
+              <td data-label="2026 amount">
+                <label class="sr-only" for="amount-19">2026 amount for Fidelity Stock Plan Services</label>
+                <input id="amount-19" class="balance-input" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Enter amount">
+              </td>
+              <td data-label="As-of date">
+                <label class="sr-only" for="date-19">As-of date for Fidelity Stock Plan Services</label>
+                <input id="date-19" class="date-input" type="date">
+              </td>
+              <td data-label="Status">
+                <label class="sr-only" for="status-19">Status for Fidelity Stock Plan Services</label>
+                <select id="status-19" class="status-input">
+                  <option value="active">Active</option>
+                  <option value="closed">Closed</option>
+                  <option value="unknown" selected>Unknown</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr data-account-row data-index="20" data-currency="USD" data-default-status="unknown">
+              <td data-label="Owner">Ali</td>
+              <td data-label="Institution / account" class="institution">Oppenheimer &amp; Co. · Shadow Account</td>
+              <td data-label="Account type">Brokerage / stock plan</td>
+              <td data-label="Full account number" class="account-number">G18-1888731</td>
+              <td data-label="Country">United States</td>
+              <td data-label="Currency" class="currency">USD</td>
+              <td data-label="2025 baseline" class="amount baseline">Not found</td>
+              <td data-label="2026 amount">
+                <label class="sr-only" for="amount-20">2026 amount for Oppenheimer &amp; Co. · Shadow Account</label>
+                <input id="amount-20" class="balance-input" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Enter amount">
+              </td>
+              <td data-label="As-of date">
+                <label class="sr-only" for="date-20">As-of date for Oppenheimer &amp; Co. · Shadow Account</label>
+                <input id="date-20" class="date-input" type="date">
+              </td>
+              <td data-label="Status">
+                <label class="sr-only" for="status-20">Status for Oppenheimer &amp; Co. · Shadow Account</label>
+                <select id="status-20" class="status-input">
+                  <option value="active">Active</option>
+                  <option value="closed">Closed</option>
+                  <option value="unknown" selected>Unknown</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr data-account-row data-index="21" data-currency="USD" data-default-status="unknown">
+              <td data-label="Owner">Ali</td>
+              <td data-label="Institution / account" class="institution">ESOP Management and Trust Services · Microsoft Israel</td>
+              <td data-label="Account type">Employee stock-plan trustee</td>
+              <td data-label="Full account number" class="account-number">Not shown</td>
+              <td data-label="Country">Israel</td>
+              <td data-label="Currency" class="currency">USD</td>
+              <td data-label="2025 baseline" class="amount baseline">Not found</td>
+              <td data-label="2026 amount">
+                <label class="sr-only" for="amount-21">2026 amount for ESOP Management and Trust Services · Microsoft Israel</label>
+                <input id="amount-21" class="balance-input" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Enter amount">
+              </td>
+              <td data-label="As-of date">
+                <label class="sr-only" for="date-21">As-of date for ESOP Management and Trust Services · Microsoft Israel</label>
+                <input id="date-21" class="date-input" type="date">
+              </td>
+              <td data-label="Status">
+                <label class="sr-only" for="status-21">Status for ESOP Management and Trust Services · Microsoft Israel</label>
+                <select id="status-21" class="status-input">
+                  <option value="active">Active</option>
+                  <option value="closed">Closed</option>
+                  <option value="unknown" selected>Unknown</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr data-account-row data-index="22" data-currency="USD" data-default-status="closed">
+              <td data-label="Owner">Ali</td>
+              <td data-label="Institution / account" class="institution">Fidelity · Microsoft ESPP Plan</td>
+              <td data-label="Account type">Employee stock purchase plan</td>
+              <td data-label="Full account number" class="account-number">Not shown</td>
+              <td data-label="Country">United States</td>
+              <td data-label="Currency" class="currency">USD</td>
+              <td data-label="2025 baseline" class="amount baseline">Not found</td>
+              <td data-label="2026 amount">
+                <label class="sr-only" for="amount-22">2026 amount for Fidelity · Microsoft ESPP Plan</label>
+                <input id="amount-22" class="balance-input" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Enter amount">
+              </td>
+              <td data-label="As-of date">
+                <label class="sr-only" for="date-22">As-of date for Fidelity · Microsoft ESPP Plan</label>
+                <input id="date-22" class="date-input" type="date">
+              </td>
+              <td data-label="Status">
+                <label class="sr-only" for="status-22">Status for Fidelity · Microsoft ESPP Plan</label>
+                <select id="status-22" class="status-input">
+                  <option value="active">Active</option>
+                  <option value="closed" selected>Closed</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="actions"><button id="clear-updates" type="button">Clear saved 2026 updates</button></div>
+  </section>
+
+  <section class="panel" aria-labelledby="charts-title">
+    <div class="section-heading">
+      <h2 id="charts-title">Balance distribution</h2>
+      <p>Entered USD and ILS balances are charted separately in green.</p>
+    </div>
+    <div class="charts">
+      <section class="chart-card">
+        <div class="chart-heading"><h3>Balances by institution / account type</h3><span class="currency-pill">USD</span></div>
+        <div id="institution-usd" class="chart-body"><p class="empty-chart">Enter USD balances to populate this chart.</p></div>
+      </section>
+      <section class="chart-card">
+        <div class="chart-heading"><h3>Balances by owner / country</h3><span class="currency-pill">USD</span></div>
+        <div id="owner-usd" class="chart-body"><p class="empty-chart">Enter USD balances to populate this chart.</p></div>
+      </section>
+      <section class="chart-card">
+        <div class="chart-heading"><h3>Balances by institution / account type</h3><span class="currency-pill">ILS</span></div>
+        <div id="institution-ils" class="chart-body"><p class="empty-chart">Enter ILS balances to populate this chart.</p></div>
+      </section>
+      <section class="chart-card">
+        <div class="chart-heading"><h3>Balances by owner / country</h3><span class="currency-pill">ILS</span></div>
+        <div id="owner-ils" class="chart-body"><p class="empty-chart">Enter ILS balances to populate this chart.</p></div>
+      </section>
+    </div>
+  </section>
+
+  <section class="panel danger-panel" aria-labelledby="missing-title">
+    <div class="section-heading">
+      <h2 id="missing-title">Balance not found <span id="missing-count" class="danger-count">22</span></h2>
+      <p>Active or unknown accounts without a 2026 amount.</p>
+    </div>
+    <ul id="missing-list" class="missing-list"></ul>
+  </section>
+
+  <section class="panel appendix-panel" aria-labelledby="appendix-title">
+    <div class="section-heading">
+      <h2 id="appendix-title">Appendix · First Tech account breakdown</h2>
+      <p>Source accounts represented by the combined First Tech input row.</p>
+    </div>
+    <div class="table-wrap">
+      <table id="appendix-table">
+        <thead>
+          <tr>
+            <th scope="col">Institution</th>
+            <th scope="col">Account type</th>
+            <th scope="col">Account number</th>
+            <th scope="col">Last evidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Institution" class="institution">First Tech Federal Credit Union</td>
+            <td data-label="Account type">Checking</td>
+            <td data-label="Account number" class="account-number">XXXXXX9421 (partial)</td>
+            <td data-label="Last evidence" class="date">2025-12-31</td>
+          </tr>
+          <tr>
+            <td data-label="Institution" class="institution">First Tech Federal Credit Union</td>
+            <td data-label="Account type">Bank deposit</td>
+            <td data-label="Account number" class="account-number">XXXXXXXX5736 (partial)</td>
+            <td data-label="Last evidence" class="date">2024-12-31</td>
+          </tr>
+          <tr>
+            <td data-label="Institution" class="institution">First Tech Federal Credit Union</td>
+            <td data-label="Account type">Bank deposit</td>
+            <td data-label="Account number" class="account-number">XXXXXX1573 (partial)</td>
+            <td data-label="Last evidence" class="date">2025-12-31</td>
+          </tr>
+          <tr>
+            <td data-label="Institution" class="institution">First Tech Federal Credit Union</td>
+            <td data-label="Account type">Bank deposit</td>
+            <td data-label="Account number" class="account-number">XXXXXX5770 (partial)</td>
+            <td data-label="Last evidence" class="date">2025-12-31</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<script>
+(() => {
+  const accounts = [{"owner": "Ali", "institution": "Bank Leumi · current account", "type": "Bank cash / deposit", "country": "Israel", "currency": "ILS"}, {"owner": "Ali", "institution": "First Tech Federal Credit Union · combined deposits", "type": "Bank cash / deposits", "country": "United States", "currency": "USD"}, {"owner": "Ali", "institution": "Interactive Brokers", "type": "Brokerage / margin", "country": "United States", "currency": "USD"}, {"owner": "Ali", "institution": "Morgan Stanley at Work · Microsoft Stock Awards", "type": "Employee stock plan", "country": "United States", "currency": "USD"}, {"owner": "Ali", "institution": "Fidelity Brokerage Services", "type": "Brokerage", "country": "United States", "currency": "USD"}, {"owner": "Ali", "institution": "Robinhood", "type": "Brokerage", "country": "United States", "currency": "USD"}, {"owner": "Ali", "institution": "Fidelity · Microsoft Savings Plus 401(k)", "type": "401(k) retirement", "country": "United States", "currency": "USD"}, {"owner": "Ali", "institution": "Meitav · education fund", "type": "Education fund", "country": "Israel", "currency": "ILS"}, {"owner": "Ali", "institution": "Migdal · Migdlor Life 2009", "type": "Insurance savings", "country": "Israel", "currency": "ILS"}, {"owner": "Ali", "institution": "Migdal · Migdlor policy components", "type": "Insurance savings", "country": "Israel", "currency": "ILS"}, {"owner": "Ali", "institution": "Migdal Makafet", "type": "Provident fund", "country": "Israel", "currency": "ILS"}, {"owner": "Ali", "institution": "Harel Pension & Gemel", "type": "Pension", "country": "Israel", "currency": "ILS"}, {"owner": "Assala", "institution": "Clal Pension & Gemel", "type": "Pension", "country": "Israel", "currency": "ILS"}, {"owner": "Assala", "institution": "Yahav P.R.H. · education fund", "type": "Education fund", "country": "Israel", "currency": "ILS"}, {"owner": "Assala", "institution": "Gal · teaching employees provident fund", "type": "Provident fund", "country": "Israel", "currency": "ILS"}, {"owner": "Assala", "institution": "Harel · education fund", "type": "Education fund", "country": "Israel", "currency": "ILS"}, {"owner": "Assala", "institution": "Harel Pension & Gemel", "type": "Pension", "country": "Israel", "currency": "ILS"}, {"owner": "Assala", "institution": "Teachers & Kindergarten Education Fund · regular track", "type": "Education fund", "country": "Israel", "currency": "ILS"}, {"owner": "Assala", "institution": "Teachers & Kindergarten Education Fund · regular track", "type": "Education fund", "country": "Israel", "currency": "ILS"}, {"owner": "Ali", "institution": "Fidelity Stock Plan Services", "type": "Employee stock-plan brokerage", "country": "United States", "currency": "USD"}, {"owner": "Ali", "institution": "Oppenheimer & Co. · Shadow Account", "type": "Brokerage / stock plan", "country": "United States", "currency": "USD"}, {"owner": "Ali", "institution": "ESOP Management and Trust Services · Microsoft Israel", "type": "Employee stock-plan trustee", "country": "Israel", "currency": "USD"}, {"owner": "Ali", "institution": "Fidelity · Microsoft ESPP Plan", "type": "Employee stock purchase plan", "country": "United States", "currency": "USD"}];
+  const storageKey = "financial-accounts-inventory-2026-v2";
+  const rows = [...document.querySelectorAll("[data-account-row]")];
+  const rateInput = document.getElementById("exchange-rate");
+  const totalUsd = document.getElementById("total-usd");
+  const heldUsd = document.getElementById("held-usd");
+  const heldIls = document.getElementById("held-ils");
+  const missingCount = document.getElementById("missing-count");
+  const missingList = document.getElementById("missing-list");
+
+  const money = (currency, value) =>
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(value);
+
+  const load = () => {
+    try {
+      return JSON.parse(localStorage.getItem(storageKey) || "{}");
+    } catch {
+      return {};
+    }
+  };
+
+  const save = () => {
+    const state = { rate: rateInput.value, accounts: {} };
+    rows.forEach((row) => {
+      const index = row.dataset.index;
+      state.accounts[index] = {
+        amount: row.querySelector(".balance-input").value,
+        date: row.querySelector(".date-input").value,
+        status: row.querySelector(".status-input").value
+      };
+    });
+    localStorage.setItem(storageKey, JSON.stringify(state));
+  };
+
+  const aggregate = (entries, keyBuilder) => {
+    const result = new Map();
+    entries.forEach((entry) => {
+      const key = keyBuilder(entry);
+      result.set(key, (result.get(key) || 0) + entry.amount);
+    });
+    return [...result.entries()].sort((a, b) => b[1] - a[1]);
+  };
+
+  const renderBars = (targetId, entries, currency) => {
+    const target = document.getElementById(targetId);
+    if (!entries.length) {
+      target.innerHTML = `<p class="empty-chart">Enter ${currency} balances to populate this chart.</p>`;
+      return;
+    }
+    const maximum = Math.max(...entries.map((entry) => entry[1]));
+    target.innerHTML = entries.map(([label, value]) => `
+      <div class="bar-row">
+        <div class="bar-label"><span>${label}</span><strong>${money(currency, value)}</strong></div>
+        <div class="bar-track" aria-hidden="true"><span class="bar-fill" style="width:${Math.max(0.5, value / maximum * 100)}%"></span></div>
+      </div>
+    `).join("");
+  };
+
+  const recalculate = () => {
+    const entered = [];
+    const missing = [];
+    rows.forEach((row) => {
+      const index = Number(row.dataset.index);
+      const amountInput = row.querySelector(".balance-input");
+      const status = row.querySelector(".status-input").value;
+      const rawAmount = amountInput.value.trim();
+      const amount = Number(rawAmount);
+      if (status !== "closed" && (!rawAmount || !Number.isFinite(amount))) {
+        missing.push(accounts[index]);
+      }
+      if (rawAmount && Number.isFinite(amount) && amount >= 0 && status !== "closed") {
+        entered.push({ ...accounts[index], amount });
+      }
+    });
+
+    const usdEntries = entered.filter((entry) => entry.currency === "USD");
+    const ilsEntries = entered.filter((entry) => entry.currency === "ILS");
+    const usd = usdEntries.reduce((sum, entry) => sum + entry.amount, 0);
+    const ils = ilsEntries.reduce((sum, entry) => sum + entry.amount, 0);
+    const rate = Number(rateInput.value);
+
+    heldUsd.textContent = money("USD", usd);
+    heldIls.textContent = money("ILS", ils);
+    totalUsd.textContent = rate > 0 ? money("USD", usd + ils / rate) : "—";
+    missingCount.textContent = String(missing.length);
+    missingList.innerHTML = missing.length
+      ? missing.map((entry) => `<li>${entry.owner} · ${entry.institution} (${entry.currency})</li>`).join("")
+      : "<li>All known active accounts have a 2026 amount.</li>";
+
+    renderBars(
+      "institution-usd",
+      aggregate(usdEntries, (entry) => `${entry.institution} · ${entry.type}`),
+      "USD"
+    );
+    renderBars(
+      "owner-usd",
+      aggregate(usdEntries, (entry) => `${entry.owner} · ${entry.country}`),
+      "USD"
+    );
+    renderBars(
+      "institution-ils",
+      aggregate(ilsEntries, (entry) => `${entry.institution} · ${entry.type}`),
+      "ILS"
+    );
+    renderBars(
+      "owner-ils",
+      aggregate(ilsEntries, (entry) => `${entry.owner} · ${entry.country}`),
+      "ILS"
+    );
+    save();
+  };
+
+  const state = load();
+  rateInput.value = state.rate || "";
+  rows.forEach((row) => {
+    const saved = state.accounts?.[row.dataset.index];
+    if (!saved) return;
+    row.querySelector(".balance-input").value = saved.amount || "";
+    row.querySelector(".date-input").value = saved.date || "";
+    row.querySelector(".status-input").value = saved.status || "unknown";
+  });
+
+  document.addEventListener("input", recalculate);
+  document.addEventListener("change", recalculate);
+  document.getElementById("clear-updates").addEventListener("click", () => {
+    localStorage.removeItem(storageKey);
+    rateInput.value = "";
+    rows.forEach((row) => {
+      row.querySelector(".balance-input").value = "";
+      row.querySelector(".date-input").value = "";
+      row.querySelector(".status-input").value = row.dataset.defaultStatus;
+    });
+    recalculate();
+  });
+  recalculate();
+})();
+</script>
+</body>
+</html>
