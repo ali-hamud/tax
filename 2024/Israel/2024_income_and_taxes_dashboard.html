@@ -1449,10 +1449,17 @@ html[data-theme="dark"] {
 
     const taxBase = [
       {
-        label: "Israeli salary/equity withholding",
-        value: 701072,
+        label: "Monthly salary / taxable benefits",
+        value: 135020,
         color: "var(--cp-accent)",
-        treatment: "Israeli withholding",
+        treatment: "Estimated allocation from the combined ₪701,072 Israeli withholding",
+        domestic: true
+      },
+      {
+        label: "Stocks / Section 102",
+        value: 566052,
+        color: "var(--cp-accent)",
+        treatment: "Residual estimated allocation from the combined ₪701,072 Israeli withholding",
         domestic: true
       },
       {
@@ -1556,10 +1563,16 @@ html[data-theme="dark"] {
     function renderTaxComparison() {
       const rows = [
         {
-          label: "Israeli salary/equity withholding",
-          paid: 701072,
-          due: 668768,
-          note: "Central allocation: ordinary income tax plus Section 102 stock profit at 28%."
+          label: "Monthly salary / taxable benefits",
+          paid: 135020,
+          due: 135020,
+          note: "Estimated paid allocation. Due is the progressive tax on ₪551,115 salary/benefits after the ₪15,173 documented employer credit."
+        },
+        {
+          label: "Stocks (ordinary + Section 102)",
+          paid: 566052,
+          due: 533748,
+          note: "Estimated paid allocation. Due combines ₪272,423 ordinary stock income at marginal rates with ₪1,441,961 Section 102 capital at 28%."
         },
         {
           label: "Leumi capital-gain withholding",
@@ -1612,7 +1625,7 @@ html[data-theme="dark"] {
       });
       const note = document.createElement("p");
       note.className = "overlay-note";
-      note.textContent = "Gray shows documented tax paid. Green means the estimated amount is covered; red means the estimated amount is higher. U.S. conversions use 3.7004 as an annual-average approximation; foreign-dividend rows show credit treatment and are not added to Israeli withholding.";
+      note.textContent = "The source forms report ₪701,072 as one combined salary/equity withholding amount, so the paid split between salary and stocks is an estimate. Gray shows allocated tax paid; green means covered and red means the estimated amount is higher. U.S. conversions use 3.7004 as an annual-average approximation.";
       target.appendChild(note);
     }
 
