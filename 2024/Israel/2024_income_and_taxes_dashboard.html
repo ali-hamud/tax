@@ -821,7 +821,7 @@ html[data-theme="dark"] {
     <header class="hero">
       <p class="eyebrow">Verified local source documents</p>
       <h1>2024 Income and Taxes Dashboard</h1>
-      <p class="subtitle">2024 only. Amounts are in Israeli new shekels (ILS) unless noted. This dashboard shows documented components, not complete worldwide income or a final tax calculation.</p>
+      <p class="subtitle">2024 only. Amounts are in Israeli new shekels (ILS) unless noted. Newly verified U.S. records are shown separately where adding them could duplicate Microsoft shadow-payroll or equity income already reported in Israel.</p>
       <div class="meta-row" aria-label="Dashboard scope">
         <span class="chip">Offline and self-contained</span>
         <span class="chip">Taxpayer view by default</span>
@@ -845,7 +845,7 @@ html[data-theme="dark"] {
           <button type="button" data-view="table" aria-pressed="false">Tables</button>
         </div>
       </div>
-      <p class="scope-summary" id="scope-summary">Taxpayer view excludes spouse salary and withholding. Missing U.S. and IBKR amounts are excluded in every view.</p>
+      <p class="scope-summary" id="scope-summary">Taxpayer view excludes spouse salary and withholding. Verified U.S. facts are shown separately until W-2 overlap is resolved.</p>
     </div>
 
     <main id="main-content">
@@ -853,7 +853,7 @@ html[data-theme="dark"] {
         <div class="section-heading">
           <div>
             <h2 id="overview-title">Known 2024 snapshot</h2>
-            <p>Totals use non-overlapping document categories. A duplicate trustee Form 106 copy is counted once.</p>
+            <p>The ILS total uses non-overlapping Israeli-report categories. U.S. wages are not added until Microsoft payroll overlap is resolved.</p>
           </div>
           <span class="confidence verified">Verified arithmetic</span>
         </div>
@@ -861,7 +861,7 @@ html[data-theme="dark"] {
           <article class="card kpi">
             <p class="kpi-label">Known verified income</p>
             <p class="kpi-value" id="kpi-income">₪2,625,942</p>
-            <p class="kpi-note" id="kpi-income-note">Taxpayer components only. Excludes spouse and missing U.S./IBKR income.</p>
+            <p class="kpi-note" id="kpi-income-note">Israeli-report components only. Excludes spouse and W-2 wages pending overlap reconciliation.</p>
           </article>
           <article class="card kpi">
             <p class="kpi-label">Israeli withholding</p>
@@ -869,14 +869,46 @@ html[data-theme="dark"] {
             <p class="kpi-note" id="kpi-israeli-tax-note">Salary/equity, Leumi capital gain, and deposit-interest withholding.</p>
           </article>
           <article class="card kpi">
-            <p class="kpi-label">Foreign dividend tax</p>
-            <p class="kpi-value">₪5,842</p>
-            <p class="kpi-note">₪5,546 documented as allowed credit; ₪296 documented as not allowed.</p>
+            <p class="kpi-label">Foreign tax documented</p>
+            <p class="kpi-value">₪5,842 + $282</p>
+            <p class="kpi-note">Israeli forms plus Fidelity stock-plan withholding; USD conversion is handled in the estimate.</p>
           </article>
           <article class="card kpi">
-            <p class="kpi-label">Incomplete categories</p>
-            <p class="kpi-value">6 core gaps</p>
-            <p class="kpi-note">W-2, U.S. return, 1099s, Form 3922, stock supplement, and IBKR activity.</p>
+            <p class="kpi-label">Reconciliation gaps</p>
+            <p class="kpi-value">3 key gaps</p>
+            <p class="kpi-note">Unlocked final U.S. return, Microsoft payroll/equity mapping, and actual workday/Form 3922 detail.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="us-evidence-title">
+        <div class="section-heading">
+          <div>
+            <h2 id="us-evidence-title">New verified 2024 U.S. evidence</h2>
+            <p>USD amounts are shown from source records. Approximate ILS sensitivities use the 2024 annual-average rate of 3.7004 only where stated.</p>
+          </div>
+          <span class="confidence verified">Source documents present</span>
+        </div>
+        <div class="kpi-grid">
+          <article class="card kpi">
+            <p class="kpi-label">Microsoft W-2</p>
+            <p class="kpi-value">$255,066</p>
+            <p class="kpi-note">Federal income-tax withholding: $47,651. Wages are not added to the ILS total because Israeli shadow-payroll overlap is unresolved.</p>
+          </article>
+          <article class="card kpi">
+            <p class="kpi-label">U.S. dividends</p>
+            <p class="kpi-value">$2,025</p>
+            <p class="kpi-note">Fidelity stock plan $1,462.02 + Fidelity brokerage $22.40 + IBKR $540.36.</p>
+          </article>
+          <article class="card kpi">
+            <p class="kpi-label">Interest and realized loss</p>
+            <p class="kpi-value">$459 / ($122)</p>
+            <p class="kpi-note">First Tech interest $459.29; IBKR short-term realized loss $121.88.</p>
+          </article>
+          <article class="card kpi">
+            <p class="kpi-label">Fidelity stock plan</p>
+            <p class="kpi-value">$282 tax</p>
+            <p class="kpi-note">Dividend tax withheld $282.06. ESPP purchase discount $1,386.23 and a $5,721.79 stock release are not added separately to income.</p>
           </article>
         </div>
       </section>
@@ -966,8 +998,8 @@ html[data-theme="dark"] {
       <section class="section" aria-labelledby="estimate-title">
         <div class="section-heading">
           <div>
-            <h2 id="estimate-title">Estimated 2024 tax and refund</h2>
-            <p>Taxpayer-only estimate based on currently available 2024 records. Household mode does not change these cards because spouse tax has not been calculated.</p>
+            <h2 id="estimate-title">Interim 2024 Israel tax and refund</h2>
+            <p>Includes verified U.S. passive income, IBKR loss, and Fidelity foreign tax. W-2 wages and U.S. wage tax remain outside the estimate pending overlap and source allocation.</p>
           </div>
           <span class="confidence combined">Known-data estimate</span>
         </div>
@@ -981,22 +1013,56 @@ html[data-theme="dark"] {
           <article class="card insight">
             <span class="confidence combined">Estimate</span>
             <h3>How much tax should I pay?</h3>
-            <span class="big">₪752,057–₪778,867</span>
-            <p>Central/current documented-credit scenario: <strong>₪763,694</strong>.</p>
+            <span class="big">₪753,463–₪780,273</span>
+            <p>Central scenario after U.S. passive adjustment: <strong>₪765,100</strong>.</p>
           </article>
           <article class="card insight">
             <span class="confidence combined">Estimate</span>
             <h3>How much tax refund should I get?</h3>
-            <span class="big">₪6,317–₪33,127</span>
-            <p>Central/current documented-credit scenario: <strong>₪21,490</strong>.</p>
+            <span class="big">₪4,911–₪31,721</span>
+            <p>Central interim scenario before W-2 reconciliation: <strong>₪20,084</strong>.</p>
           </article>
         </div>
         <div class="equation" style="margin-top:12px">
           <span class="equation-label">Calculation relationship</span>
-          <code>Refund = ₪785,184 withholding − estimated tax due; central scenario: ₪785,184 − ₪763,694 = ₪21,490.</code>
-          <p style="margin:8px 0 0;color:var(--cp-text-muted);font-size:0.86rem">If the ₪16,818 prior-year loss is proven, it may add about ₪4,709 to the refund.</p>
+          <code>Refund = ₪785,184 Israeli withholding − estimated tax due; interim central scenario: ₪785,184 − ₪765,100 = ₪20,084.</code>
+          <p style="margin:8px 0 0;color:var(--cp-text-muted);font-size:0.86rem">If the ₪16,818 prior-year loss is proven, it may add about ₪4,709. If the documented $691.16 margin interest is deductible, it may add about ₪716.</p>
         </div>
-        <p style="margin:12px 0 0;color:var(--cp-text-muted);font-size:0.9rem">Missing 2024 U.S. income/tax and equity-allocation documents can materially change the result.</p>
+        <p style="margin:12px 0 0;color:var(--cp-text-muted);font-size:0.9rem">The final W-2 result can be much better or worse depending on payroll overlap, workday sourcing, and the actual U.S. income tax shown on the locked filed return.</p>
+      </section>
+
+      <section class="section" aria-labelledby="double-tax-title">
+        <div class="section-heading">
+          <div>
+            <h2 id="double-tax-title">Double-tax review and refund opportunities</h2>
+            <p>The largest opportunity is not a new deduction—it is preventing the same Microsoft compensation from being taxed twice and claiming the correct U.S. foreign-tax credit.</p>
+          </div>
+          <span class="confidence combined">Needs reconciliation</span>
+        </div>
+        <div class="insight-grid">
+          <article class="card insight">
+            <span class="confidence missing">Do not add blindly</span>
+            <h3>W-2 versus Israeli shadow payroll</h3>
+            <span class="big">$255,066 ≈ ₪943,847</span>
+            <p>The Microsoft Israeli ordinary-income report already shows ₪806,063. A grant/payroll mapping is required before adding any W-2 amount.</p>
+          </article>
+          <article class="card insight">
+            <span class="confidence combined">Preliminary sensitivity</span>
+            <h3>Potential U.S. wage-tax credit</h3>
+            <span class="big">Up to about ₪67,974</span>
+            <p>Rough proxy only: 101 of 262 weekdays × W-2 federal withholding × 3.7004. The actual credit is limited by final U.S. tax and the Israeli tax on the same U.S.-source income.</p>
+          </article>
+          <article class="card insight">
+            <span class="confidence verified">Smaller items</span>
+            <h3>Additional refund support</h3>
+            <span class="big">₪4,709 + up to ₪716</span>
+            <p>Prior-year loss if proven, plus possible margin-interest benefit if deductible. The interim estimate already includes the IBKR loss and Fidelity withholding.</p>
+          </article>
+        </div>
+        <div class="equation" style="margin-top:12px">
+          <span class="equation-label">High-side sensitivity, not a filed estimate</span>
+          <code>₪20,084 interim refund + up to ₪67,974 preliminary wage credit ≈ ₪88,058, only if the same compensation is already in Israeli taxable income and the credit is fully allowed.</code>
+        </div>
       </section>
 
       <section class="section" aria-labelledby="equations-title">
@@ -1040,41 +1106,49 @@ html[data-theme="dark"] {
             <span class="equation-label">Spouse, shown separately</span>
             <code>Salary: ₪88,483; Israeli withholding: ₪356</code>
           </div>
+          <div class="equation">
+            <span class="equation-label">W-2 overlap marker</span>
+            <code>$255,066.33 × 3.7004 ≈ ₪943,847; shown separately, not added to ₪2,625,942.</code>
+          </div>
+          <div class="equation">
+            <span class="equation-label">U.S. dividends</span>
+            <code>$1,462.02 + $22.40 + $540.36 = $2,024.78.</code>
+          </div>
+          <div class="equation">
+            <span class="equation-label">Interim U.S. passive adjustment</span>
+            <code>U.S. dividends + interest + other income − IBKR loss − Fidelity tax credit ≈ ₪1,406 additional Israeli tax.</code>
+          </div>
+          <div class="equation">
+            <span class="equation-label">Interim central refund</span>
+            <code>₪785,184 − ₪765,100 = ₪20,084 before W-2 wage/foreign-tax reconciliation.</code>
+          </div>
         </div>
       </section>
 
       <section class="section" aria-labelledby="missing-title">
         <div class="section-heading">
           <div>
-            <h2 id="missing-title">Missing evidence that can change the picture</h2>
-            <p>The known total is intentionally incomplete. No value from the unsupported summary workbook's W-2 lines is included.</p>
+            <h2 id="missing-title">Still needed to finalize the cross-border result</h2>
+            <p>The W-2, 1099s, IBKR activity, and Fidelity statements are now present. These remaining items determine the final foreign-tax credit and overlap.</p>
           </div>
           <span class="confidence missing">Material gaps</span>
         </div>
         <div class="missing-grid">
           <div class="missing-item">
             <span class="missing-icon" aria-hidden="true">!</span>
-            <div><strong>2024 W-2</strong><span>Needed to verify Microsoft USA wages and payroll tax.</span></div>
+            <div><strong>Unlocked filed U.S. return</strong><span>Needed for final federal income tax, refund, filing status, and creditable-tax amount. The available signed PDF is password-protected.</span></div>
           </div>
           <div class="missing-item">
             <span class="missing-icon" aria-hidden="true">!</span>
-            <div><strong>2024 U.S. return</strong><span>Needed for actual foreign tax paid and creditable amounts.</span></div>
+            <div><strong>Microsoft payroll reconciliation</strong><span>Match W-2 Box 1 to the ₪806,063 Israeli ordinary income and Section 102 events.</span></div>
           </div>
           <div class="missing-item">
             <span class="missing-icon" aria-hidden="true">!</span>
-            <div><strong>2024 Forms 1099</strong><span>Needed for U.S. interest, dividends, and security sales.</span></div>
+            <div><strong>Actual 2024 workday calendar</strong><span>Use workdays, leave, and travel—not calendar days—to source salary and allocate foreign tax.</span></div>
           </div>
           <div class="missing-item">
             <span class="missing-icon" aria-hidden="true">!</span>
-            <div><strong>Form 3922 / ESPP records</strong><span>Needed to measure ESPP separately and establish basis.</span></div>
-          </div>
-          <div class="missing-item">
-            <span class="missing-icon" aria-hidden="true">!</span>
-            <div><strong>Microsoft stock supplement</strong><span>Needed to match W-2 income to grants, vesting, sales, and Israeli reporting.</span></div>
-          </div>
-          <div class="missing-item">
-            <span class="missing-icon" aria-hidden="true">!</span>
-            <div><strong>IBKR Oct–Dec activity</strong><span>Needed for 2024 realized gains, dividends, interest, and cost basis.</span></div>
+            <div><strong>Form 3922 and stock supplement</strong><span>Fidelity confirms ESPP purchases and a stock release, but the tax forms are needed for basis and W-2 overlap.</span></div>
           </div>
         </div>
       </section>
@@ -1083,10 +1157,10 @@ html[data-theme="dark"] {
         <article class="card note-card">
           <h2>Confidence and exclusions</h2>
           <ul>
-            <li><strong>Verified:</strong> figures read from 2024 income-information reports, trustee Form 106/867, and Leumi Form 867.</li>
+            <li><strong>Verified:</strong> Israeli forms plus W-2, IBKR 1099/activity, First Tech 1099-INT, and Fidelity year-end statements.</li>
             <li><strong>Combined:</strong> Microsoft ordinary income cannot be separated reliably into pure salary, ESOP ordinary income, and ESPP.</li>
-            <li><strong>Excluded:</strong> spouse values in taxpayer mode, unsupported W-2 workbook figures, IBKR 2024 income, and any unverified loss carryforward.</li>
-            <li><strong>Estimate scope:</strong> the tax/refund cards use the verified known-data range; missing worldwide income can change the result.</li>
+            <li><strong>Excluded from the ILS income total:</strong> W-2 wages because they may overlap Israeli shadow payroll; unverified loss carryforward; spouse values in taxpayer mode.</li>
+            <li><strong>Estimate scope:</strong> U.S. passive income is included approximately at 3.7004; W-2 wage tax and foreign-tax credit remain outside pending reconciliation.</li>
           </ul>
         </article>
         <article class="card note-card">
@@ -1095,6 +1169,8 @@ html[data-theme="dark"] {
             <div class="source-row"><span>Microsoft ordinary and Section 102 figures</span><span>Income report + trustee Form 106</span></div>
             <div class="source-row"><span>Personal securities, dividends, interest</span><span>Leumi Form 867</span></div>
             <div class="source-row"><span>Trustee foreign dividends and tax</span><span>Trustee Form 867</span></div>
+            <div class="source-row"><span>U.S. wages and withholding</span><span>Microsoft W-2</span></div>
+            <div class="source-row"><span>U.S. investments and tax</span><span>IBKR, Fidelity, First Tech</span></div>
             <div class="source-row"><span>Spouse salary and withholding</span><span>Two income-information reports</span></div>
           </div>
         </article>
@@ -1177,9 +1253,9 @@ html[data-theme="dark"] {
       },
       {
         label: "Foreign dividend tax allowed",
-        value: 5546,
+        value: 6590,
         color: "var(--cp-warning)",
-        treatment: "Foreign tax documented as allowed credit",
+        treatment: "Israeli forms ₪5,546 plus approximate Fidelity withholding ₪1,044",
         domestic: false
       },
       {
@@ -1270,20 +1346,20 @@ html[data-theme="dark"] {
         {
           label: "Leumi capital-gain withholding",
           paid: 83435,
-          due: 93447,
-          note: "Verified net personal-stock profit of ₪333,741 × 28%."
+          due: 93323,
+          note: "Leumi net profit at 28%, reduced by the IBKR loss and adjusted for minor IBKR other income."
         },
         {
           label: "Deposit-interest withholding",
           paid: 677,
-          due: 813,
-          note: "15% interest tax plus 3% surtax in the central estimate."
+          due: 1289,
+          note: "Leumi deposit interest plus First Tech U.S. interest in the interim estimate."
         },
         {
           label: "Foreign dividend tax allowed",
-          paid: 5546,
-          due: 666,
-          note: "Estimated remaining Israeli dividend tax after the allowed foreign tax credit."
+          paid: 6590,
+          due: 1720,
+          note: "Israeli-form credits plus approximate Fidelity withholding against Israeli and U.S. dividends."
         },
         {
           label: "Foreign dividend tax not allowed",
@@ -1318,7 +1394,7 @@ html[data-theme="dark"] {
       });
       const note = document.createElement("p");
       note.className = "overlay-note";
-      note.textContent = "Gray shows documented tax paid. Green means the estimated amount is covered; red means the estimated amount is higher. Foreign-dividend rows show credit treatment and are not added to Israeli withholding.";
+      note.textContent = "Gray shows documented tax paid. Green means the estimated amount is covered; red means the estimated amount is higher. U.S. conversions use 3.7004 as an annual-average approximation; foreign-dividend rows show credit treatment and are not added to Israeli withholding.";
       target.appendChild(note);
     }
 
@@ -1362,14 +1438,14 @@ html[data-theme="dark"] {
       document.getElementById("kpi-income").textContent = formatILS(incomeTotal);
       document.getElementById("kpi-israeli-tax").textContent = formatILS(domesticTaxTotal);
       document.getElementById("kpi-income-note").textContent = household
-        ? "Taxpayer components plus spouse salary. Missing U.S./IBKR income remains excluded."
-        : "Taxpayer components only. Excludes spouse and missing U.S./IBKR income.";
+        ? "Israeli-report components plus spouse salary. W-2 wages remain separate pending overlap reconciliation."
+        : "Israeli-report components only. Excludes spouse and W-2 wages pending overlap reconciliation.";
       document.getElementById("kpi-israeli-tax-note").textContent = household
         ? "Taxpayer Israeli withholding plus spouse withholding of ₪356."
         : "Salary/equity, Leumi capital gain, and deposit-interest withholding.";
       document.getElementById("scope-summary").textContent = household
-        ? "Household view adds spouse salary and withholding as separate categories. Missing U.S. and IBKR amounts remain excluded."
-        : "Taxpayer view excludes spouse salary and withholding. Missing U.S. and IBKR amounts are excluded in every view.";
+        ? "Household view adds spouse salary and withholding. Verified U.S. facts remain separate until W-2 overlap is resolved."
+        : "Taxpayer view excludes spouse salary and withholding. Verified U.S. facts remain separate until W-2 overlap is resolved.";
       document.getElementById("income-scope-chip").textContent = household ? "Household" : "Taxpayer";
       document.getElementById("income-table-caption").textContent = household
         ? "Taxpayer components plus spouse salary as a separate household category."
