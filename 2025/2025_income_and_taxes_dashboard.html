@@ -924,9 +924,13 @@
               </thead>
               <tbody>
                 <tr class="row-income"><td><span class="badge verified">Income</span></td><td>USA</td><td>Total income</td><td class="number">$802,381.20</td><td>Wages, dividends, interest, payment in lieu, and stocks gain.</td></tr>
-                <tr class="row-outcome"><td><span class="badge danger">Outcome</span></td><td>USA</td><td><button class="tax-breakdown-toggle" type="button" aria-expanded="false" aria-controls="overview-usa-tax-ordinary overview-usa-tax-capital overview-usa-tax-niit"><span class="tax-toggle-icon" aria-hidden="true">▶</span>Total federal tax estimate</button></td><td class="number">≈$185,574.32</td><td>Select the row to show the three tax components.</td></tr>
-                <tr class="row-outcome tax-detail-row" id="overview-usa-tax-ordinary" data-tax-detail hidden><td><span class="badge danger">Outcome</span></td><td>USA</td><td>Ordinary income tax</td><td class="number">$136,552.93</td><td>Tax on ordinary taxable income.</td></tr>
-                <tr class="row-outcome tax-detail-row" id="overview-usa-tax-capital" data-tax-detail hidden><td><span class="badge danger">Outcome</span></td><td>USA</td><td>Capital-gains tax</td><td class="number">$39,848.70</td><td>Long-term capital gains and qualified dividends.</td></tr>
+                <tr class="row-income"><td><span class="badge verified">Protection</span></td><td>Cross-border</td><td><button class="tax-breakdown-toggle" type="button" aria-expanded="false" aria-controls="overview-esop-w2 overview-esop-gain overview-esop-ftc"><span class="tax-toggle-icon" aria-hidden="true">▶</span>ESOP income counted once</button></td><td class="number">Basis + FTC</td><td>U.S. vest compensation is not added again when Israel taxes the sale.</td></tr>
+                <tr class="row-income tax-detail-row" id="overview-esop-w2" hidden><td><span class="badge verified">Protection</span></td><td>USA</td><td>Stock-award income already in W-2</td><td class="number">$162,275.36</td><td>Included once as wage income.</td></tr>
+                <tr class="row-income tax-detail-row" id="overview-esop-gain" hidden><td><span class="badge verified">Protection</span></td><td>USA</td><td>ESOP sale gain after basis</td><td class="number">$130,239.38</td><td>Uses broker basis; final basis should reconcile to vest compensation.</td></tr>
+                <tr class="row-income tax-detail-row" id="overview-esop-ftc" hidden><td><span class="badge verified">Protection</span></td><td>Israel → USA</td><td>Israeli ESOP tax potentially creditable</td><td class="number">≈$104,154.16*</td><td>Potential Form 1116 credit, subject to sourcing and limitation rules.</td></tr>
+                <tr class="row-outcome"><td><span class="badge danger">Outcome</span></td><td>USA</td><td><button class="tax-breakdown-toggle" type="button" aria-expanded="false" aria-controls="overview-usa-tax-ordinary overview-usa-tax-capital overview-usa-tax-niit"><span class="tax-toggle-icon" aria-hidden="true">▶</span>Total federal tax estimate</button></td><td class="number">≈$184,974.32</td><td>Select the row to show the three tax components.</td></tr>
+                <tr class="row-outcome tax-detail-row" id="overview-usa-tax-ordinary" data-tax-detail hidden><td><span class="badge danger">Outcome</span></td><td>USA</td><td>Ordinary income tax</td><td class="number">$136,027.93</td><td>Tax on ordinary taxable income.</td></tr>
+                <tr class="row-outcome tax-detail-row" id="overview-usa-tax-capital" data-tax-detail hidden><td><span class="badge danger">Outcome</span></td><td>USA</td><td>Capital-gains tax</td><td class="number">$39,773.70</td><td>Long-term capital gains and qualified dividends.</td></tr>
                 <tr class="row-outcome tax-detail-row" id="overview-usa-tax-niit" data-tax-detail hidden><td><span class="badge danger">Outcome</span></td><td>USA</td><td>Net investment income tax (NIIT)</td><td class="number">$9,172.69</td><td>3.8% NIIT estimate.</td></tr>
                 <tr class="row-income"><td><span class="badge verified">Income</span></td><td>Israel</td><td>Total income</td><td class="number">₪1,115,221</td><td>Section 102 income and dividends.</td></tr>
                 <tr class="row-outcome"><td><span class="badge danger">Outcome</span></td><td>Israel</td><td><button class="tax-breakdown-toggle" type="button" aria-expanded="false" aria-controls="overview-israel-tax-stock overview-israel-tax-dividend"><span class="tax-toggle-icon" aria-hidden="true">▶</span>Total estimated tax</button></td><td class="number">₪402,623.01</td><td>Select the row to show the two tax components.</td></tr>
@@ -938,7 +942,7 @@
                 <tr><th colspan="3">USA · Total Income</th><td class="number amount-income">$802,381.20</td><td>Original-currency total.</td></tr>
                 <tr><th colspan="3">USA · W-2 Tax Withheld</th><td class="number amount-outcome">$108,891.26</td><td>Federal income-tax withholding.</td></tr>
                 <tr><th colspan="3">USA · Paid with Confirmation</th><td class="number amount-outcome">$42,000.00</td><td>IRS Direct Pay confirmation.</td></tr>
-                <tr><th colspan="3">USA · Potential Payment / Refund</th><td class="number amount-outcome">≈$34,683.06 payment</td><td>$185,574.32 − $108,891.26 − $42,000.00 = $34,683.06 payment, before FTC.</td></tr>
+                <tr><th colspan="3">USA · Potential Payment / Refund</th><td class="number amount-outcome">≈$34,083 payment to $70,548 refund*</td><td>Range from no FTC used to full confirmed FTC used; up to ≈$82,295 refund* if the higher trustee tax is confirmed. Actual Form 1116 limitation controls.</td></tr>
                 <tr><th colspan="3">Israel · Total Income</th><td class="number amount-income">₪1,115,221</td><td>Original-currency total.</td></tr>
                 <tr><th colspan="3">Israel · Total Withheld</th><td class="number amount-outcome">₪361,083</td><td>₪359,436 + ₪1,647 = ₪361,083.</td></tr>
                 <tr><th colspan="3">Israel · Potential Payment / Refund</th><td class="number amount-outcome">≈₪40,539.01 payment</td><td>₪402,623.01 − ₪361,083 − ₪1,001 = ₪40,539.01.</td></tr>
@@ -969,6 +973,10 @@
                 <tr class="row-income"><td><span class="badge verified">Income</span></td><td>Section 102 ordinary income</td><td class="number">₪333,111</td><td>Form 106.</td></tr>
                 <tr class="row-income"><td><span class="badge verified">Income</span></td><td>Section 102 capital-track income</td><td class="number">₪771,517</td><td>Form 106.</td></tr>
                 <tr class="row-income"><td><span class="badge verified">Income</span></td><td>Dividends</td><td class="number">₪10,593</td><td>Form 867.</td></tr>
+                <tr class="row-income"><td><span class="badge verified">Protection</span></td><td><button class="tax-breakdown-toggle" type="button" aria-expanded="false" aria-controls="israel-esop-w2 israel-esop-gain israel-esop-ftc"><span class="tax-toggle-icon" aria-hidden="true">▶</span>Cross-border ESOP treatment</button></td><td class="number">Count once</td><td>U.S. vest income and U.S. sale gain are not added again from the Israeli ordinary/capital split.</td></tr>
+                <tr class="row-income tax-detail-row" id="israel-esop-w2" hidden><td><span class="badge verified">Protection</span></td><td>U.S. stock-award income already recognized</td><td class="number">≈₪560,012.27*</td><td>2025 W-2 stock-award income converted at 3.451.</td></tr>
+                <tr class="row-income tax-detail-row" id="israel-esop-gain" hidden><td><span class="badge verified">Protection</span></td><td>U.S. ESOP sale gain after basis</td><td class="number">≈₪449,456.10*</td><td>U.S. gain converted at 3.451; do not use gross proceeds as gain.</td></tr>
+                <tr class="row-income tax-detail-row" id="israel-esop-ftc" hidden><td><span class="badge verified">Protection</span></td><td>Israeli ESOP withholding for U.S. FTC review</td><td class="number">₪359,436</td><td>Potential Form 1116 evidence; source/category limits apply.</td></tr>
                 <tr class="row-outcome"><td><span class="badge danger">Outcome</span></td><td><button class="tax-breakdown-toggle" type="button" aria-expanded="false" aria-controls="israel-tax-detail-stock israel-tax-detail-dividend"><span class="tax-toggle-icon" aria-hidden="true">▶</span>Total estimated tax</button></td><td class="number">₪402,623.01</td><td>Select the row to show the two tax components.</td></tr>
                 <tr class="row-outcome tax-detail-row" id="israel-tax-detail-stock" data-tax-detail hidden><td><span class="badge danger">Outcome</span></td><td>Stock-plan tax proxy</td><td class="number">₪399,974.76</td><td>Trustee-rate tax proxy.</td></tr>
                 <tr class="row-outcome tax-detail-row" id="israel-tax-detail-dividend" data-tax-detail hidden><td><span class="badge danger">Outcome</span></td><td>Dividend tax</td><td class="number">₪2,648.25</td><td>25% of ₪10,593 dividends.</td></tr>
@@ -981,6 +989,7 @@
               </tfoot>
             </table>
           </div>
+          <p class="muted small">* Converted from USD at 3.451 ILS/USD for display only.</p>
         </article>
       </section>
 
@@ -1004,6 +1013,20 @@
                 <tr class="row-income"><td><span class="badge verified">Income</span></td><td>W-2 wages</td><td class="number">$560,994.67</td><td>Includes stock-award and ESPP wage subsets.</td></tr>
                 <tr class="row-income"><td><span class="badge verified">Income</span></td><td>Dividends, interest, and payment in lieu</td><td class="number">$20,326.40</td><td>Qualified dividends are a subset of dividends.</td></tr>
                 <tr class="row-income"><td><span class="badge verified">Income</span></td><td>Stocks gain</td><td class="number">$221,060.13</td><td>Oppenheimer/ESOP, Fidelity, and Interactive Brokers.</td></tr>
+                <tr class="row-income">
+                  <td><span class="badge verified">Protection</span></td>
+                  <td>
+                    <button class="tax-breakdown-toggle" type="button" aria-expanded="false" aria-controls="usa-esop-w2 usa-esop-gain usa-esop-ftc">
+                      <span class="tax-toggle-icon" aria-hidden="true">▶</span>
+                      ESOP double-tax reconciliation
+                    </button>
+                  </td>
+                  <td class="number">Count once</td>
+                  <td>U.S. vest income is in W-2 wages; sale gain uses basis; Israeli tax is potential FTC evidence.</td>
+                </tr>
+                <tr class="row-income tax-detail-row" id="usa-esop-w2" hidden><td><span class="badge verified">Protection</span></td><td>2025 U.S. stock-award income already in W-2</td><td class="number">$162,275.36</td><td>Do not add it again as separate U.S. income.</td></tr>
+                <tr class="row-income tax-detail-row" id="usa-esop-gain" hidden><td><span class="badge verified">Protection</span></td><td>Oppenheimer/ESOP sale gain after broker basis</td><td class="number">$130,239.38</td><td>$297,342.00 proceeds − $167,102.62 basis; final basis must match vest compensation records.</td></tr>
+                <tr class="row-income tax-detail-row" id="usa-esop-ftc" hidden><td><span class="badge verified">Protection</span></td><td>Israeli ESOP tax potentially creditable</td><td class="number">≈$104,154.16*</td><td>Form 106 withholding converted at 3.451; Form 1116 source/category limits apply.</td></tr>
                 <tr class="row-outcome">
                   <td><span class="badge danger">Outcome</span></td>
                   <td>
@@ -1012,24 +1035,24 @@
                       Total federal tax estimate
                     </button>
                   </td>
-                  <td class="number">≈$185,574.32</td>
+                  <td class="number">≈$184,974.32</td>
                   <td>Select the row to show the three tax components.</td>
                 </tr>
-                <tr class="row-outcome tax-detail-row" id="usa-tax-detail-ordinary" data-tax-detail hidden><td><span class="badge danger">Outcome</span></td><td>Ordinary income tax</td><td class="number">$136,552.93</td><td>Tax on ordinary taxable income.</td></tr>
-                <tr class="row-outcome tax-detail-row" id="usa-tax-detail-capital" data-tax-detail hidden><td><span class="badge danger">Outcome</span></td><td>Capital-gains tax</td><td class="number">$39,848.70</td><td>Preferential tax on long-term capital gains and qualified dividends.</td></tr>
+                <tr class="row-outcome tax-detail-row" id="usa-tax-detail-ordinary" data-tax-detail hidden><td><span class="badge danger">Outcome</span></td><td>Ordinary income tax</td><td class="number">$136,027.93</td><td>Tax on ordinary taxable income.</td></tr>
+                <tr class="row-outcome tax-detail-row" id="usa-tax-detail-capital" data-tax-detail hidden><td><span class="badge danger">Outcome</span></td><td>Capital-gains tax</td><td class="number">$39,773.70</td><td>Preferential tax on long-term capital gains and qualified dividends.</td></tr>
                 <tr class="row-outcome tax-detail-row" id="usa-tax-detail-niit" data-tax-detail hidden><td><span class="badge danger">Outcome</span></td><td>Net investment income tax (NIIT)</td><td class="number">$9,172.69</td><td>3.8% NIIT estimate.</td></tr>
                 <tr class="row-outcome"><td><span class="badge danger">Outcome</span></td><td>2024 credit usable</td><td class="number">$0 verified</td><td>Additional carryover remains unknown.</td></tr>
-                <tr class="row-outcome"><td><span class="badge danger">Outcome</span></td><td>Potential 2026 credit</td><td class="number">≈$0–$104,631*</td><td>Up to ≈$116,378* if the higher trustee tax is confirmed.</td></tr>
+                <tr class="row-outcome"><td><span class="badge danger">Outcome</span></td><td>Potential 2026 credit</td><td class="number">≈$0–$104,631*</td><td>Unused credit may carry back 1 year and forward 10 years by Form 1116 category; up to ≈$116,378* if the higher trustee tax is confirmed.</td></tr>
               </tbody>
               <tfoot>
                 <tr><th colspan="2">Total Income</th><td class="number amount-income">$802,381.20</td><td>Reconciles to the income rows.</td></tr>
                 <tr><th colspan="2">W-2 Tax Withheld</th><td class="number amount-outcome">$108,891.26</td><td>Federal income-tax withholding.</td></tr>
                 <tr><th colspan="2">Paid with Confirmation</th><td class="number amount-outcome">$42,000.00</td><td>IRS Direct Pay confirmation.</td></tr>
-                <tr><th colspan="2">Potential Payment / Refund</th><td class="number amount-outcome">≈$34,683.06 payment</td><td>$185,574.32 − $108,891.26 − $42,000.00 = $34,683.06 payment, before FTC.</td></tr>
+                <tr><th colspan="2">Potential Payment / Refund</th><td class="number amount-outcome">≈$34,083 payment to $70,548 refund*</td><td>Before FTC: $34,083.06 payment. If the full confirmed ≈$104,631.41* FTC is allowed: ≈$70,548.35 refund; up to ≈$82,295.31 refund* if the higher trustee tax is confirmed. Actual Form 1116 limitation controls.</td></tr>
               </tfoot>
             </table>
           </div>
-          <p class="muted small">* Converted from ILS at 3.451 ILS/USD. Estimate assumes married filing jointly, a $30,000 standard deduction, 2025 rates, and NIIT.</p>
+          <p class="muted small">* Converted from ILS at 3.451 ILS/USD for display; the filed Form 1116 may require payment-date exchange rates. Estimate assumes Married Filing Jointly, spouse income of $0, the official $31,500 standard deduction, 2025 rates, and NIIT. No child/dependent credits are included.</p>
         </article>
       </section>
 
@@ -1277,7 +1300,7 @@
           oppenheimerGain: 130239.38,
           federalWithholding: 108891.26,
           extensionPayment: 42000.00,
-          preliminaryFederalLiability: 185574.31614,
+          preliminaryFederalLiability: 184974.31614,
           socialSecurity: 10918.20,
           medicare: 11274.00,
           foreignTax: 31.26,
@@ -1349,6 +1372,12 @@
       const maximumForeignTaxCreditUsd = roundMoney(
         maximumIsraelForeignTaxEvidence / DATA.fx.irsYearlyAverage
       );
+      const confirmedFtcRefund = roundMoney(
+        confirmedForeignTaxCreditUsd - preliminaryUsaPayment
+      );
+      const maximumFtcRefund = roundMoney(
+        maximumForeignTaxCreditUsd - preliminaryUsaPayment
+      );
       const trusteeDifference = roundMoney(
         DATA.israel.trusteeTaxAdvance - DATA.israel.form106Withholding
       );
@@ -1370,9 +1399,9 @@
       const checks = [
         ["U.S. capital gain", usaCapitalGain, 221060.13],
         ["U.S. dividends, interest, and payment in lieu", usaDividendsAndInterest, 20326.40],
-        ["Preliminary U.S. tax liability", preliminaryUsaLiability, 185574.32],
+        ["Preliminary U.S. tax liability", preliminaryUsaLiability, 184974.32],
         ["U.S. federal payments", usaFederalPayments, 150891.26],
-        ["Preliminary U.S. payment", preliminaryUsaPayment, 34683.06],
+        ["Preliminary U.S. payment", preliminaryUsaPayment, 34083.06],
         ["U.S. source-form income", usaIncomeEvidence, 802381.20],
         ["U.S. tax payments and payroll taxes", usaTaxPayments, 173083.46],
         ["Israel income evidence", israelIncomeEvidence, 1115221],
@@ -1380,6 +1409,8 @@
         ["Maximum Israel foreign-tax evidence", maximumIsraelForeignTaxEvidence, 401621.76],
         ["Confirmed foreign-tax evidence in USD", confirmedForeignTaxCreditUsd, 104631.41],
         ["Maximum foreign-tax evidence in USD", maximumForeignTaxCreditUsd, 116378.37],
+        ["Confirmed FTC refund scenario", confirmedFtcRefund, 70548.35],
+        ["Maximum FTC refund scenario", maximumFtcRefund, 82295.31],
         ["Trustee gross proceeds in ILS", roundMoney(DATA.fx.trusteeGrossProceedsIls), 1046450.72],
         ["Trustee withholding difference", trusteeDifference, 40538.76],
         ["Preliminary Israel tax", estimatedIsraelTax, 402623.01],

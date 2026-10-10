@@ -34,11 +34,14 @@ This file records known facts for preparing the 2024 Israeli tax refund and annu
 - Moved from working for Microsoft Israel to Microsoft USA.
 - The wife worked in Israel through 12-Aug-2024 and did not work after the move for the remainder of 2024.
 - The user confirms that the spouse did not work at any time in 2025 or 2026. No spouse wage forms are expected for those years unless this fact changes.
+- The user confirms that the 2025 U.S. federal return should be filed as Married Filing Jointly. The spouse had no wage or self-employment income in 2025.
 
 ## Equity and investment timeline
 
 - Received ESOP or stock awards and ESPP through Microsoft Israel.
 - Receives ESOP or stock awards and ESPP through Microsoft USA.
+- The user states that U.S. tax is imposed at each ESOP/stock vest and Israel imposes tax when trustee-held shares are sold. The U.S. filing should include vest compensation once, use compensation-adjusted basis for the sale, and claim eligible Israeli tax through Form 1116 rather than adding the Israeli ordinary/capital split again as separate U.S. income.
+- The 2024 Microsoft Israel paystubs show taxable payroll entries labeled ESPP profit value of ₪2,570.64 in April 2024 and ₪2,570.43 in July 2024, totaling ₪5,141.07. Each entry appears in salary imputations and is included in the income-tax wage base for a payslip with Israeli income-tax withholding. The payslips do not explicitly state “15%,” so the entries support taxation of the ESPP discount/benefit but should be reconciled to the purchase statement or Form 3922 for exact basis.
 - Traded personally through Leumi while living in Israel.
 - Made deposits into savings or deposit plans in Israel and the United States during 2024.
 - Held share portfolios in both Israel and the United States.
